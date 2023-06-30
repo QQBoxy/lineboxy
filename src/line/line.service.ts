@@ -1,22 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import {
-  // main APIs
-  Client,
-  middleware,
-
-  // exceptions
-  JSONParseError,
-  SignatureValidationFailed,
-
-  // types
-  TemplateMessage,
-  WebhookEvent,
-} from '@line/bot-sdk';
+import { Client, WebhookEvent } from '@line/bot-sdk';
 import axios from 'axios';
 
 @Injectable()
 export class LineService {
-  async sendMessage(events: WebhookEvent[]) {
+  async create(events: WebhookEvent[]) {
     const client = new Client({
       channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
       channelSecret: process.env.LINE_CHANNEL_SECRET,

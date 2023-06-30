@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { LineController } from './line.controller';
 import { LineService } from './line.service';
+import { LineController } from './line.controller';
 
 @Module({
   controllers: [LineController],
