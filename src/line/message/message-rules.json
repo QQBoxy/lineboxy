@@ -1,0 +1,16 @@
+[
+    {
+        "keyword": "test",
+        "type": "text",
+        "groupId": [],
+        "userId": [],
+        "reply": "測試",
+        "enable": true
+    },
+    {
+        "regexp": "^sd$",
+        "type": "stable-diffusion",
+        "groupId": [],
+        "enable": true
+    }
+]
