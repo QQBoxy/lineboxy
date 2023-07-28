@@ -4,11 +4,13 @@ import axios from 'axios';
 import * as _ from 'lodash';
 import * as messageRules from './message-rules.json';
 import { StableDiffusionService } from './stable-diffusion/stable-diffusion.service';
+import { ImgurService } from './imgur/imgur.service';
 
 @Injectable()
 export class MessageService {
   constructor(
     private readonly stableDiffusionService: StableDiffusionService,
+    private readonly imgurService: ImgurService,
   ) {}
   async create(client, event: MessageEvent) {
     try {
@@ -70,18 +72,7 @@ export class MessageService {
             text: 'Stable Diffusion offline.',
           });
         }
-        const imgur: any = await axios({
-          method: 'post',
-          url: 'https://api.imgur.com/3/image',
-          headers: {
-            Authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID}`,
-          },
-          data: {
-            image: base64Image,
-          },
-        });
-
-        const url = imgur.data.data.link;
+        const url = await this.imgurService.create(base64Image);
 
         return client.replyMessage(event.replyToken, {
           type: 'image',
