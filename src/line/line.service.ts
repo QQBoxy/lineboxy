@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Client, WebhookEvent } from '@line/bot-sdk';
+import { MessageService } from './message/message.service';
 
 @Injectable()
 export class LineService {
-  async create(events: WebhookEvent[], handler) {
+  constructor(private readonly messageService: MessageService) {}
+  async create(events: WebhookEvent[]) {
     const client = new Client({
       channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
       channelSecret: process.env.LINE_CHANNEL_SECRET,
@@ -14,7 +16,7 @@ export class LineService {
         if (event.type !== 'message' || event.message.type !== 'text') {
           return Promise.resolve(null);
         }
-        return await handler(client, event);
+        return await this.messageService.create(client, event);
       }),
     );
   }
