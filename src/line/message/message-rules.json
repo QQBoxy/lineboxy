@@ -17,5 +17,11 @@
         "type": "line-info",
         "groupId": [],
         "enable": true
+    },
+    {
+        "regexp": "^sticker [0-9]+ [0-9]+$",
+        "type": "sticker",
+        "groupId": [],
+        "enable": true
     }
 ]

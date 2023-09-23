@@ -104,6 +104,15 @@ export class MessageService {
         }
         return client.replyMessage(event.replyToken, messages);
       }
+      // Line sticker
+      if (rule.type === 'sticker') {
+        const keys = text.split(' ');
+        return client.replyMessage(event.replyToken, {
+          type: 'sticker',
+          packageId: keys[1],
+          stickerId: keys[2],
+        });
+      }
     } catch (e) {
       console.log(e);
       return client.replyMessage(event.replyToken, {
