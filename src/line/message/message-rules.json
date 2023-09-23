@@ -10,6 +10,11 @@
     {
         "regexp": "^sd$",
         "type": "stable-diffusion",
+        "enable": true
+    },
+    {
+        "keyword": "lineinfo",
+        "type": "line-info",
         "groupId": [],
         "enable": true
     }

@@ -24,6 +24,7 @@ export class MessageService {
         reply: rule?.reply,
         enable: false,
       }));
+      // console.log(JSON.stringify(event, null, 2)); // 測試用
       // 群組 ID
       const groupId = _.get(event, 'source.groupId', '');
       // 使用者 ID
@@ -73,11 +74,21 @@ export class MessageService {
           });
         }
         const url = await this.imgurService.create(base64Image);
-
         return client.replyMessage(event.replyToken, {
           type: 'image',
           originalContentUrl: url,
           previewImageUrl: url,
+        });
+      }
+      // Line Info
+      if (rule.type === 'line-info') {
+        const info = {
+          groupId,
+          userId,
+        };
+        return client.replyMessage(event.replyToken, {
+          type: 'text',
+          text: JSON.stringify(info, null, 2),
         });
       }
     } catch (e) {
