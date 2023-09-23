@@ -23,5 +23,11 @@
         "type": "sticker",
         "groupId": [],
         "enable": true
+    },
+    {
+        "regexp": "^flex {[\\s\\S]*}$",
+        "type": "line-flex",
+        "groupId": [],
+        "enable": true
     }
 ]

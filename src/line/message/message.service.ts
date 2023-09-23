@@ -113,6 +113,20 @@ export class MessageService {
           stickerId: keys[2],
         });
       }
+      // Line flex
+      if (rule.type === 'line-flex') {
+        const str = text.substring(5);
+        try {
+          const contents = JSON.parse(str);
+          return client.replyMessage(event.replyToken, {
+            type: 'flex',
+            altText: 'FlexBoxy',
+            contents,
+          });
+        } catch (e) {
+          return null;
+        }
+      }
     } catch (e) {
       console.log(e);
       return client.replyMessage(event.replyToken, {
