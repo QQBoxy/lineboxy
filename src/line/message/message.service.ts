@@ -22,7 +22,7 @@ export class MessageService {
         keyword: rule?.keyword,
         regexp: rule?.regexp,
         reply: rule?.reply,
-        enable: false,
+        enable: rule.enable,
       }));
       // console.log(JSON.stringify(event, null, 2)); // 測試用
       // 群組 ID
@@ -33,6 +33,10 @@ export class MessageService {
       const text = _.get(event, 'message.text', '');
       // 搜尋規則
       const rule = _.find(rules, (rule) => {
+        // 指令是否啟用
+        if (!rule.enable) {
+          return null;
+        }
         if (rule.keyword) {
           if (Array.isArray(rule.keyword)) {
             return rule.keyword.includes(text);
@@ -43,6 +47,10 @@ export class MessageService {
           return new RegExp(rule.regexp).test(text);
         }
       });
+      // 規則是否存在
+      if (!rule) {
+        return null;
+      }
       // 群組權限
       if (rule.groupId && rule.groupId.length > 0) {
         const isGroup = rule.groupId.includes(groupId);
@@ -82,14 +90,19 @@ export class MessageService {
       }
       // Line Info
       if (rule.type === 'line-info') {
-        const info = {
-          groupId,
-          userId,
-        };
-        return client.replyMessage(event.replyToken, {
-          type: 'text',
-          text: JSON.stringify(info, null, 2),
-        });
+        const messages = [
+          {
+            type: 'text',
+            text: `userId：${userId}`,
+          },
+        ];
+        if (groupId) {
+          messages.push({
+            type: 'text',
+            text: `groupId：${groupId}`,
+          });
+        }
+        return client.replyMessage(event.replyToken, messages);
       }
     } catch (e) {
       console.log(e);
