@@ -22,6 +22,8 @@ export class MessageService {
         keyword: rule?.keyword,
         regexp: rule?.regexp,
         reply: rule?.reply,
+        packageId: rule?.packageId,
+        stickerId: rule?.stickerId,
         enable: rule.enable,
       }));
       // console.log(JSON.stringify(event, null, 2)); // 測試用
@@ -88,7 +90,19 @@ export class MessageService {
           previewImageUrl: url,
         });
       }
-      // Line Info
+      // Line 貼圖回覆
+      if (rule.type === 'sticker') {
+        // Probability
+        if (Math.random() > 0.3) {
+          return null;
+        }
+        return client.replyMessage(event.replyToken, {
+          type: 'sticker',
+          packageId: rule.packageId,
+          stickerId: rule.stickerId,
+        });
+      }
+      // Line Info tool
       if (rule.type === 'line-info') {
         const messages = [
           {
@@ -104,8 +118,8 @@ export class MessageService {
         }
         return client.replyMessage(event.replyToken, messages);
       }
-      // Line sticker
-      if (rule.type === 'sticker') {
+      // Line sticker tool
+      if (rule.type === 'line-sticker') {
         const keys = text.split(' ');
         return client.replyMessage(event.replyToken, {
           type: 'sticker',
@@ -113,18 +127,23 @@ export class MessageService {
           stickerId: keys[2],
         });
       }
-      // Line flex
+      // Line flex tool
       if (rule.type === 'line-flex') {
         const str = text.substring(5);
         try {
           const contents = JSON.parse(str);
           return client.replyMessage(event.replyToken, {
             type: 'flex',
-            altText: 'FlexBoxy',
+            altText: 'Line Flex',
             contents,
           });
         } catch (e) {
-          return null;
+          throw {
+            ...e,
+            error: {
+              message: 'JSON Format Error.',
+            },
+          };
         }
       }
     } catch (e) {

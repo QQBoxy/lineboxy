@@ -20,7 +20,7 @@
     },
     {
         "regexp": "^sticker [0-9]+ [0-9]+$",
-        "type": "sticker",
+        "type": "line-sticker",
         "groupId": [],
         "enable": true
     },
@@ -28,6 +28,251 @@
         "regexp": "^flex {[\\s\\S]*}$",
         "type": "line-flex",
         "groupId": [],
+        "enable": true
+    },
+    {
+        "keyword": "開動啦",
+        "type": "sticker",
+        "packageId": "6362",
+        "stickerId": "11087922",
+        "enable": true
+    },
+    {
+        "keyword": "好溫暖喔",
+        "type": "sticker",
+        "packageId": "6362",
+        "stickerId": "11087924",
+        "enable": true
+    },
+    {
+        "keyword": "哈囉哈囉",
+        "type": "sticker",
+        "packageId": "6362",
+        "stickerId": "11087925",
+        "enable": true
+    },
+    {
+        "keyword": "打勾勾",
+        "type": "sticker",
+        "packageId": "6362",
+        "stickerId": "11087923",
+        "enable": true
+    },
+    {
+        "keyword": "好累啊",
+        "type": "sticker",
+        "packageId": "6362",
+        "stickerId": "11087923",
+        "enable": true
+    },
+    {
+        "keyword": "好累啊",
+        "type": "sticker",
+        "packageId": "6362",
+        "stickerId": "11087923",
+        "enable": true
+    },
+    {
+        "keyword": "好累啊",
+        "type": "sticker",
+        "packageId": "6362",
+        "stickerId": "11087927",
+        "enable": true
+    },
+    {
+        "keyword": "感激不盡",
+        "type": "sticker",
+        "packageId": "6362",
+        "stickerId": "11087928",
+        "enable": true
+    },
+    {
+        "keyword": "了解",
+        "type": "sticker",
+        "packageId": "6362",
+        "stickerId": "11087929",
+        "enable": true
+    },
+    {
+        "keyword": "休息一下吧",
+        "type": "sticker",
+        "packageId": "6362",
+        "stickerId": "11087930",
+        "enable": true
+    },
+    {
+        "keyword": "麻煩你了",
+        "type": "sticker",
+        "packageId": "6362",
+        "stickerId": "11087931",
+        "enable": true
+    },
+    {
+        "keyword": "加油加油",
+        "type": "sticker",
+        "packageId": "6362",
+        "stickerId": "11087933",
+        "enable": true
+    },
+    {
+        "keyword": "偷看",
+        "type": "sticker",
+        "packageId": "6362",
+        "stickerId": "11087939",
+        "enable": true
+    },
+    {
+        "keyword": "晚安囉",
+        "type": "sticker",
+        "packageId": "6362",
+        "stickerId": "11087943",
+        "enable": true
+    },
+    {
+        "keyword": "OK啦",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581290",
+        "enable": true
+    },
+    {
+        "keyword": "謝謝你",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581291",
+        "enable": true
+    },
+    {
+        "keyword": "你是我的救星",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581292",
+        "enable": true
+    },
+    {
+        "keyword": "好喔",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581293",
+        "enable": true
+    },
+    {
+        "keyword": "你覺得如何呢",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581294",
+        "enable": true
+    },
+    {
+        "keyword": "沒問題",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581295",
+        "enable": true
+    },
+    {
+        "keyword": "請多指教",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581296",
+        "enable": true
+    },
+    {
+        "keyword": "我確認一下喔",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581297",
+        "enable": true
+    },
+    {
+        "keyword": "對不起",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581298",
+        "enable": true
+    },
+    {
+        "keyword": "好期待",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581299",
+        "enable": true
+    },
+    {
+        "keyword": "辛苦了",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581298",
+        "enable": true
+    },
+    {
+        "keyword": "超厲害的啦",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581302",
+        "enable": true
+    },
+    {
+        "keyword": "超開心",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581303",
+        "enable": true
+    },
+    {
+        "keyword": "原來如此",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581304",
+        "enable": true
+    },
+    {
+        "keyword": "萬事拜託了",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581305",
+        "enable": true
+    },
+    {
+        "keyword": "真是麻煩你了",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581307",
+        "enable": true
+    },
+    {
+        "keyword": "早安",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581308",
+        "enable": true
+    },
+    {
+        "keyword": "晚安",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581309",
+        "enable": true
+    },
+    {
+        "keyword": "慌慌張張",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581311",
+        "enable": true
+    },
+    {
+        "keyword": "謝謝招待",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581312",
+        "enable": true
+    },
+    {
+        "keyword": "加油喔",
+        "type": "sticker",
+        "packageId": "8525",
+        "stickerId": "16581313",
         "enable": true
     }
 ]
