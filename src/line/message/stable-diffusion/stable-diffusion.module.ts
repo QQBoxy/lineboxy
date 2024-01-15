@@ -1,4 +1,4 @@
-import { Module, Global } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { StableDiffusionService } from './stable-diffusion.service';
 
 @Module({

@@ -8,6 +8,22 @@
         "enable": true
     },
     {
+        "keyword": "鐵捲門開門",
+        "type": "roller-shutter",
+        "groupId": [
+            "Cec340048720a75fd5e7105009abe72ca"
+        ],
+        "enable": true
+    },
+    {
+        "keyword": "鐵捲門開門",
+        "type": "roller-shutter",
+        "userId": [
+            "U79a5a8ac14782598e917d4e23c3e2a4b"
+        ],
+        "enable": true
+    },
+    {
         "regexp": "^sd$",
         "type": "stable-diffusion",
         "enable": true

@@ -5,12 +5,14 @@ import * as _ from 'lodash';
 import * as messageRules from './message-rules.json';
 import { StableDiffusionService } from './stable-diffusion/stable-diffusion.service';
 import { ImgurService } from './imgur/imgur.service';
+import { RollerShutterService } from './roller-shutter/roller-shutter.service';
 
 @Injectable()
 export class MessageService {
   constructor(
     private readonly stableDiffusionService: StableDiffusionService,
     private readonly imgurService: ImgurService,
+    private readonly rollerShutterService: RollerShutterService,
   ) {}
   async create(client, event: MessageEvent) {
     try {
@@ -37,7 +39,21 @@ export class MessageService {
       const rule = _.find(rules, (rule) => {
         // 指令是否啟用
         if (!rule.enable) {
-          return null;
+          return false;
+        }
+        // 群組權限
+        if (rule.groupId && rule.groupId.length > 0) {
+          const isGroup = rule.groupId.includes(groupId);
+          if (!isGroup) {
+            return false;
+          }
+        }
+        // 使用者權限
+        if (rule.userId && rule.userId.length > 0) {
+          const isUser = rule.groupId.includes(userId);
+          if (!isUser) {
+            return false;
+          }
         }
         if (rule.keyword) {
           if (Array.isArray(rule.keyword)) {
@@ -52,20 +68,6 @@ export class MessageService {
       // 規則是否存在
       if (!rule) {
         return null;
-      }
-      // 群組權限
-      if (rule.groupId && rule.groupId.length > 0) {
-        const isGroup = rule.groupId.includes(groupId);
-        if (!isGroup) {
-          return null;
-        }
-      }
-      // 使用者權限
-      if (rule.userId && rule.userId.length > 0) {
-        const isUser = rule.groupId.includes(userId);
-        if (!isUser) {
-          return null;
-        }
       }
       // 一般訊息
       if (rule.type === 'text') {
@@ -88,6 +90,14 @@ export class MessageService {
           type: 'image',
           originalContentUrl: url,
           previewImageUrl: url,
+        });
+      }
+      // Stable Diffusion
+      if (rule.type === 'roller-shutter') {
+        await this.rollerShutterService.create();
+        return client.replyMessage(event.replyToken, {
+          type: 'text',
+          text: '已送出鐵捲門開啟命令',
         });
       }
       // Line 貼圖回覆
