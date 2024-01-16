@@ -50,7 +50,7 @@ export class MessageService {
         }
         // 使用者權限
         if (rule.userId && rule.userId.length > 0) {
-          const isUser = rule.groupId.includes(userId);
+          const isUser = rule.userId.includes(userId);
           if (!isUser) {
             return false;
           }
