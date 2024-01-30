@@ -92,7 +92,7 @@ export class MessageService {
           previewImageUrl: url,
         });
       }
-      // Stable Diffusion
+      // Roller Shutter
       if (rule.type === 'roller-shutter') {
         await this.rollerShutterService.create();
         return client.replyMessage(event.replyToken, {
