@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Client, MessageEvent } from '@line/bot-sdk';
 import axios from 'axios';
 import * as _ from 'lodash';
@@ -9,6 +9,7 @@ import { RollerShutterService } from './roller-shutter/roller-shutter.service';
 
 @Injectable()
 export class MessageService {
+  private readonly logger = new Logger(MessageService.name);
   constructor(
     private readonly stableDiffusionService: StableDiffusionService,
     private readonly imgurService: ImgurService,
@@ -35,6 +36,8 @@ export class MessageService {
       const userId = _.get(event, 'source.userId', '');
       // 訊息文字
       const text = _.get(event, 'message.text', '');
+      // 寫入 Log
+      this.logger.log(`message: ${text}`);
       // 搜尋規則
       const rule = _.find(rules, (rule) => {
         // 指令是否啟用
