@@ -14,8 +14,9 @@ export class UsersService {
 
   create(createUserDto: CreateUserDto) {
     const user = new User();
-    user.account = createUserDto.account;
-    user.password = createUserDto.password;
+    user.googleId = createUserDto.googleId;
+    user.name = createUserDto.name;
+    user.picture = createUserDto?.picture ?? '';
     return this.usersRepository.save(user);
   }
 
@@ -27,10 +28,13 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id: id });
   }
 
+  findOneByGoogleId(googleId: string) {
+    return this.usersRepository.findOneBy({ googleId: googleId });
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto) {
     const user = new User();
-    user.account = updateUserDto.account;
-    user.password = updateUserDto.password;
+    user.picture = updateUserDto?.picture ?? '';
     user.updatedAt = new Date();
     await this.usersRepository.update({ id: id }, user);
     return this.usersRepository.findOneBy({ id: id });

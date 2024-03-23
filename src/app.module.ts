@@ -7,6 +7,7 @@ import { DataSource } from 'typeorm';
 import { LineModule } from './line/line.module';
 import { TaskModule } from './task/task.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 import * as path from 'path';
 
 @Module({
@@ -25,6 +26,7 @@ import * as path from 'path';
     LineModule,
     TaskModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

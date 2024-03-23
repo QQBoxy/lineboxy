@@ -3,10 +3,12 @@ import { IsString, IsNotEmpty, MinLength } from 'class-validator';
 export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
-  account: string;
+  googleId: string;
 
   @IsString()
   @IsNotEmpty()
-  @MinLength(6)
-  password: string;
+  name: string;
+
+  @IsString()
+  picture: string;
 }

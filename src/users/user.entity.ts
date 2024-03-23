@@ -1,9 +1,4 @@
-import {
-  Entity,
-  Column,
-  CreateDateColumn,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Entity, Column, CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { Exclude } from 'class-transformer';
 
 @Entity()
@@ -12,11 +7,13 @@ export class User {
   id: number;
 
   @Column()
-  account: string;
+  googleId: string;
 
-  @Exclude({ toPlainOnly: true })
   @Column()
-  password: string;
+  name: string;
+
+  @Column()
+  picture: string;
 
   @Column({ default: true })
   isActive: boolean;
