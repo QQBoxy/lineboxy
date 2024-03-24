@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  Post,
   Body,
   Patch,
   Param,
@@ -9,9 +8,7 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
 } from '@nestjs/common';
-// import { instanceToPlain } from 'class-transformer';
 import { UsersService } from './users.service';
-// import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { Role } from '../enums/role.enum';
@@ -20,14 +17,9 @@ import { Roles } from '../decorators/roles.decorator';
 @UseInterceptors(ClassSerializerInterceptor)
 @ApiCookieAuth()
 @ApiTags('Users')
-@Controller('users')
+@Controller()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  // @Post()
-  // create(@Body() createUserDto: CreateUserDto) {
-  //   return instanceToPlain(this.usersService.create(createUserDto));
-  // }
 
   @Get()
   @Roles(Role.Admin)

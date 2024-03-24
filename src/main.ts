@@ -26,14 +26,13 @@ async function bootstrap() {
 
   // Swagger
   const config = new DocumentBuilder()
-    .setTitle('LineBoxy API Doc')
-    .setDescription('The LineBoxy API description.')
+    .setTitle('LineBoxy')
+    .setDescription('This is the API document for the LineBoxy server.')
     .setVersion('1.0')
     .addCookieAuth('lineboxy-session-id')
-    .addTag('lineboxy')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('swagger', app, document);
 
   await app.listen(3000);
 }

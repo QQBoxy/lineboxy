@@ -12,6 +12,8 @@ import { AuthModule } from './auth/auth.module';
 import * as path from 'path';
 
 import { RolesGuard } from './guards/roles.guard';
+import { PersonModule } from './person/person.module';
+import { Routes } from './routes';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { RolesGuard } from './guards/roles.guard';
     TaskModule,
     UsersModule,
     AuthModule,
+    PersonModule,
+    Routes,
   ],
   controllers: [],
   providers: [

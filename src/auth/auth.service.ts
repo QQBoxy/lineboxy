@@ -1,16 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { Profile } from 'passport-google-oauth20';
+import { Role } from '../enums/role.enum';
 
 interface User {
   accessToken: string;
   refreshToken: string;
   profile: Profile;
-}
-
-interface Session {
-  userId?: number;
-  roles?: string[];
 }
 
 interface Redirect {
@@ -56,7 +52,7 @@ export class AuthService {
     }
     // 寫入 Session
     req.session.userId = user.id;
-    req.session.roles = ['admin'];
+    req.session.roles = [Role.User];
     return {
       message: 'User information from google',
       redirect_uri: '/login?code=SUCCESSFUL',
