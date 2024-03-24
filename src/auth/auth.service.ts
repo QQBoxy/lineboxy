@@ -10,6 +10,7 @@ interface User {
 
 interface Session {
   userId?: number;
+  roles?: string[];
 }
 
 interface Redirect {
@@ -36,17 +37,14 @@ export class AuthService {
       email_verified,
       email,
     } = req.user.profile._json;
-
     // 取得帳號資訊
     let user = await this.usersService.findOneByGoogleId(googleId);
-
     if (!email_verified) {
       return {
         message: 'Email Address is Not Verified',
         redirect_uri: '/login?code=EMAIL_ADDRESS_IS_NOT_VERIFIED',
       };
     }
-
     // 帳號不存在就建立
     if (!user) {
       user = await this.usersService.create({
@@ -56,10 +54,9 @@ export class AuthService {
         email: email,
       });
     }
-
     // 寫入 Session
     req.session.userId = user.id;
-
+    req.session.roles = ['admin'];
     return {
       message: 'User information from google',
       redirect_uri: '/login?code=SUCCESSFUL',

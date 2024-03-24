@@ -1,3 +1,4 @@
+import { APP_GUARD } from '@nestjs/core';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -9,6 +10,8 @@ import { TaskModule } from './task/task.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import * as path from 'path';
+
+import { RolesGuard } from './guards/roles.guard';
 
 @Module({
   imports: [
@@ -29,7 +32,12 @@ import * as path from 'path';
     AuthModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}

@@ -1,4 +1,4 @@
-import { GoogleOAuthGuard } from '../google-oauth.guard';
+import { GoogleOAuthGuard } from '../guards/google-oauth.guard';
 import { Controller, Get, Request, UseGuards, Redirect } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';

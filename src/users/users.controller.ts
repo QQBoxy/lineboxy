@@ -14,6 +14,8 @@ import { UsersService } from './users.service';
 // import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
+import { Role } from '../enums/role.enum';
+import { Roles } from '../decorators/roles.decorator';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @ApiCookieAuth()
@@ -28,21 +30,25 @@ export class UsersController {
   // }
 
   @Get()
+  @Roles(Role.Admin)
   findAll() {
     return this.usersService.findAll();
   }
 
   @Get(':id')
+  @Roles(Role.Admin)
   findOne(@Param('id') id: number) {
     return this.usersService.findOne(+id);
   }
 
   @Patch(':id')
+  @Roles(Role.Admin)
   async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
+  @Roles(Role.Admin)
   remove(@Param('id') id: number) {
     return this.usersService.remove(+id);
   }
