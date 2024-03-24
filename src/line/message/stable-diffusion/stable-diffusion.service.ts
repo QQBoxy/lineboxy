@@ -7,7 +7,10 @@ export class StableDiffusionService {
     try {
       const res = await axios({
         method: 'post',
-        url: 'http://127.0.0.1:7860/sdapi/v1/txt2img',
+        url: new URL(
+          '/sdapi/v1/txt2img',
+          process.env.STABLE_DIFFUSION_WEBUI_URL ?? 'http://127.0.0.1:7860',
+        ).href,
         headers: { Authorization: process.env.IMGUR_CLIENT_ID },
         data: {
           prompt: '1girl',
