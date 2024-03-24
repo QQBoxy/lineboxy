@@ -9,7 +9,7 @@ export class StableDiffusionService {
         method: 'post',
         url: new URL(
           '/sdapi/v1/txt2img',
-          process.env.STABLE_DIFFUSION_WEBUI_URL ?? 'http://127.0.0.1:7860',
+          process.env.STABLE_DIFFUSION_WEBUI_URL || 'http://127.0.0.1:7860',
         ).href,
         headers: { Authorization: process.env.IMGUR_CLIENT_ID },
         data: {
