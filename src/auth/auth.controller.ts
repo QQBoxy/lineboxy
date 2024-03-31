@@ -11,7 +11,7 @@ export class AuthController {
   @Get()
   @ApiOperation({ summary: 'Sign in with Google OAuth 2.0' })
   @UseGuards(GoogleOAuthGuard)
-  async googleAuth(@Request() req) {
+  async googleAuth() {
     // ...
   }
 

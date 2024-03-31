@@ -29,30 +29,32 @@ export class AuthService {
     const {
       sub: googleId,
       name,
-      picture,
-      email_verified,
       email,
+      email_verified,
+      picture,
     } = req.user.profile._json;
-    // 取得帳號資訊
-    let user = await this.usersService.findOneByGoogleId(googleId);
+    // 驗證信箱
     if (!email_verified) {
       return {
         message: 'Email Address is Not Verified',
         redirect_uri: '/login?code=EMAIL_ADDRESS_IS_NOT_VERIFIED',
       };
     }
+    // 取得帳號資訊
+    let user = await this.usersService.findOneByGoogleId(googleId);
     // 帳號不存在就建立
     if (!user) {
       user = await this.usersService.create({
         googleId: googleId,
         name: name,
-        picture: picture,
         email: email,
+        picture: picture,
+        role: Role.User,
       });
     }
     // 寫入 Session
-    req.session.userId = user.id;
-    req.session.roles = [Role.User];
+    req.session.passport = { user };
+    // 響應
     return {
       message: 'User information from google',
       redirect_uri: '/login?code=SUCCESSFUL',

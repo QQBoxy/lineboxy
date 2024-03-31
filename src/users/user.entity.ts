@@ -1,5 +1,4 @@
 import { Entity, Column, CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
-import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
@@ -17,6 +16,9 @@ export class User {
 
   @Column()
   picture: string;
+
+  @Column()
+  role: string;
 
   @Column({ default: true })
   isActive: boolean;

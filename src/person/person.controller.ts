@@ -17,6 +17,6 @@ export class PersonController {
   @Roles(Role.Admin, Role.User)
   read(@Request() req) {
     const session: Session = req.session;
-    return this.usersService.findOne(session.userId);
+    return session.passport.user;
   }
 }

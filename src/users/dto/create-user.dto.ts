@@ -10,8 +10,11 @@ export class CreateUserDto {
   name: string;
 
   @IsString()
+  email: string;
+
+  @IsString()
   picture: string;
 
   @IsString()
-  email: string;
+  role: string;
 }

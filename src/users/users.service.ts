@@ -16,8 +16,9 @@ export class UsersService {
     const user = new User();
     user.googleId = createUserDto.googleId;
     user.name = createUserDto.name;
-    user.picture = createUserDto?.picture ?? '';
     user.email = createUserDto?.email ?? '';
+    user.picture = createUserDto?.picture ?? '';
+    user.role = createUserDto?.role ?? '';
     return this.usersRepository.save(user);
   }
 

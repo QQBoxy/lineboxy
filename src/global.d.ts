@@ -1,4 +1,11 @@
 interface Session {
-  userId?: number;
-  roles?: string[];
+  passport?: {
+    user: {
+      googleId: string;
+      name: string;
+      email: string;
+      picture: string;
+      role: string;
+    };
+  };
 }

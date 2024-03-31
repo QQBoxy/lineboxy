@@ -14,6 +14,7 @@ import * as path from 'path';
 import { RolesGuard } from './guards/roles.guard';
 import { PersonModule } from './person/person.module';
 import { Routes } from './routes';
+import { SessionSerializer } from './serializer/session.serializer';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { Routes } from './routes';
   ],
   controllers: [],
   providers: [
+    SessionSerializer,
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
