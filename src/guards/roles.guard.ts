@@ -18,10 +18,7 @@ export class RolesGuard extends AuthGuard('google') implements CanActivate {
     if (!requiredRoles) {
       return true;
     }
-    // 觸發 deserializeUser
     const req = context.switchToHttp().getRequest();
-    await super.logIn(req);
-
     const session: Session = req.session;
 
     return requiredRoles.some((role) => session.passport?.user?.role === role);

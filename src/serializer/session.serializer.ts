@@ -13,8 +13,8 @@ export class SessionSerializer extends PassportSerializer {
   }
 
   async deserializeUser(payload: any, done: (err: any, id?: any) => void): Promise<void> {
-    if (payload.googleId) {
-      this.usersService.findOneByGoogleId(payload.googleId).then((user) => {
+    if (payload.id) {
+      this.usersService.findOne(payload.id).then((user) => {
         done(null, user);
       });
     } else {
