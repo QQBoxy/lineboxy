@@ -18,7 +18,7 @@ export class AuthController {
   @Get('google-redirect')
   @ApiOperation({ summary: 'Google OAuth 2.0 callback URL' })
   @ApiResponse({ status: 200, description: "Redirect to '/login?code=SUCCESSFUL'" })
-  @Redirect('/', 301)
+  @Redirect('/', 302)
   @UseGuards(GoogleOAuthGuard)
   async googleAuthRedirect(@Request() req) {
     const result = await this.authService.validateUser(req);
@@ -28,11 +28,16 @@ export class AuthController {
   @Get('logout')
   @ApiOperation({ summary: 'Google OAuth 2.0 logout' })
   @ApiResponse({ status: 200, description: "Redirect to '/logout?code=SUCCESSFUL'" })
-  @Redirect('/', 301)
+  @Redirect('/', 302)
   async googleAuthLogout(@Request() req) {
-    req.logout(() => {
-      req.session.destroy();
-    });
+    await (() => {
+      return new Promise((resolve) => {
+        req.logout(() => {
+          resolve('');
+        });
+      });
+    })();
+    req.session.destroy();
     return { url: '/logout?code=SUCCESSFUL' };
   }
 }
