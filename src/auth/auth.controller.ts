@@ -24,4 +24,15 @@ export class AuthController {
     const result = await this.authService.validateUser(req);
     return { url: result.redirect_uri };
   }
+
+  @Get('logout')
+  @ApiOperation({ summary: 'Google OAuth 2.0 logout' })
+  @ApiResponse({ status: 200, description: "Redirect to '/logout?code=SUCCESSFUL'" })
+  @Redirect('/', 301)
+  async googleAuthLogout(@Request() req) {
+    req.logout(() => {
+      req.session.destroy();
+    });
+    return { url: '/logout?code=SUCCESSFUL' };
+  }
 }
