@@ -1,7 +1,8 @@
 import { RouterModule } from '@nestjs/core';
-import { UsersModule } from './users/users.module';
-import { PersonModule } from './person/person.module';
+
 import { KanbanBoardsModule } from './kanban-boards/kanban-boards.module';
+import { PersonModule } from './person/person.module';
+import { UsersModule } from './users/users.module';
 
 export const Routes = RouterModule.register([
   {

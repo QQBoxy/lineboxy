@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
 import { Profile } from 'passport-google-oauth20';
+
 import { Role } from '../enums/role.enum';
+import { UsersService } from '../users/users.service';
 
 interface User {
   accessToken: string;

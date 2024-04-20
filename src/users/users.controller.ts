@@ -1,20 +1,21 @@
 import {
-  Controller,
-  Get,
   Body,
-  Patch,
-  Param,
-  Delete,
-  UseInterceptors,
   ClassSerializerInterceptor,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  UseInterceptors,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UserDto } from './dto/user.dto';
+import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+
+import { Roles } from '../decorators/roles.decorator';
+import { Role } from '../enums/role.enum';
 import { ListUserDto } from './dto/list-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Role } from '../enums/role.enum';
-import { Roles } from '../decorators/roles.decorator';
+import { UserDto } from './dto/user.dto';
+import { UsersService } from './users.service';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @ApiCookieAuth()

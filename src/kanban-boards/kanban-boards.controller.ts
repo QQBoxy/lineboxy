@@ -1,22 +1,23 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
-  Delete,
-  UseInterceptors,
   ClassSerializerInterceptor,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseInterceptors,
 } from '@nestjs/common';
-import { KanbanBoardsService } from './kanban-boards.service';
-import { KanbanBoardDto } from './dto/kanban-board.dto';
-import { CreateKanbanBoardDto } from './dto/create-kanban-board.dto';
-import { UpdateKanbanBoardDto } from './dto/update-kanban-board.dto';
-import { ListKanbanBoardDto } from './dto/list-kanban-board.dto';
 import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+
 import { Roles } from '../decorators/roles.decorator';
 import { Role } from '../enums/role.enum';
+import { CreateKanbanBoardDto } from './dto/create-kanban-board.dto';
+import { KanbanBoardDto } from './dto/kanban-board.dto';
+import { ListKanbanBoardDto } from './dto/list-kanban-board.dto';
+import { UpdateKanbanBoardDto } from './dto/update-kanban-board.dto';
+import { KanbanBoardsService } from './kanban-boards.service';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @ApiCookieAuth()

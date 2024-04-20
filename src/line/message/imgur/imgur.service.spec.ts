@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { ImgurService } from './imgur.service';
 
 describe('ImgurService', () => {

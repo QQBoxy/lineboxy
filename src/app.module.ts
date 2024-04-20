@@ -1,21 +1,21 @@
-import { APP_GUARD } from '@nestjs/core';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
-import { LineModule } from './line/line.module';
-import { TaskModule } from './task/task.module';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
 import * as path from 'path';
+import { DataSource } from 'typeorm';
 
+import { AuthModule } from './auth/auth.module';
 import { RolesGuard } from './guards/roles.guard';
+import { KanbanBoardsModule } from './kanban-boards/kanban-boards.module';
+import { LineModule } from './line/line.module';
 import { PersonModule } from './person/person.module';
 import { Routes } from './routes';
 import { SessionSerializer } from './serializer/session.serializer';
-import { KanbanBoardsModule } from './kanban-boards/kanban-boards.module';
+import { TaskModule } from './task/task.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [

@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ServiceHeartbeatService } from './service-heartbeat.service';
+
 import { ServiceHeartbeatController } from './service-heartbeat.controller';
+import { ServiceHeartbeatService } from './service-heartbeat.service';
 
 @Module({
   providers: [ServiceHeartbeatService],
-  controllers: [ServiceHeartbeatController]
+  controllers: [ServiceHeartbeatController],
 })
 export class ServiceHeartbeatModule {}

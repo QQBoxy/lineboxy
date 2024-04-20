@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+
 import { CreateKanbanBoardDto } from './dto/create-kanban-board.dto';
 import { UpdateKanbanBoardDto } from './dto/update-kanban-board.dto';
 import { KanbanBoard } from './entities/kanban-board.entity';

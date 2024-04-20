@@ -1,6 +1,7 @@
 import { Controller } from '@nestjs/common';
-import { ServiceHeartbeatService } from './service-heartbeat.service';
 import { Cron } from '@nestjs/schedule';
+
+import { ServiceHeartbeatService } from './service-heartbeat.service';
 
 @Controller('service-heartbeat')
 export class ServiceHeartbeatController {

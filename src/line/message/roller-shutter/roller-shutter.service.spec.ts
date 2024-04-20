@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { RollerShutterService } from './roller-shutter.service';
 
 describe('RollerShutterService', () => {

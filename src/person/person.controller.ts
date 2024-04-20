@@ -1,9 +1,10 @@
 import { Controller, Get, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UsersService } from '../users/users.service';
+
 import { Roles } from '../decorators/roles.decorator';
 import { Role } from '../enums/role.enum';
 import { UserDto } from '../users/dto/user.dto';
+import { UsersService } from '../users/users.service';
 
 @ApiCookieAuth()
 @ApiTags('Person')

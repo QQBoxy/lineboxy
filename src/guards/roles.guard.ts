@@ -1,8 +1,9 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Role } from '../enums/role.enum';
-import { ROLES_KEY } from '../decorators/roles.decorator';
 import { AuthGuard } from '@nestjs/passport';
+
+import { ROLES_KEY } from '../decorators/roles.decorator';
+import { Role } from '../enums/role.enum';
 
 @Injectable()
 export class RolesGuard extends AuthGuard('google') implements CanActivate {

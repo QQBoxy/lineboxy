@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { KanbanBoardDto } from './kanban-board.dto';
 import { instanceToPlain } from 'class-transformer';
+
+import { KanbanBoardDto } from './kanban-board.dto';
 
 export class ListKanbanBoardDto {
   @ApiProperty({ example: 1 })

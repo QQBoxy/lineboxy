@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
 import { Client, WebhookEvent } from '@line/bot-sdk';
+import { Injectable } from '@nestjs/common';
+
 import { MessageService } from './message/message.service';
 
 @Injectable()

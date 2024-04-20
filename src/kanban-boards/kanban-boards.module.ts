@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { KanbanBoardsService } from './kanban-boards.service';
-import { KanbanBoardsController } from './kanban-boards.controller';
+
 import { KanbanBoard } from './entities/kanban-board.entity';
+import { KanbanBoardsController } from './kanban-boards.controller';
+import { KanbanBoardsService } from './kanban-boards.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([KanbanBoard])],

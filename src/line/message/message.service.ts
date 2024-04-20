@@ -1,11 +1,12 @@
-import { Injectable, Logger } from '@nestjs/common';
 import { Client, MessageEvent } from '@line/bot-sdk';
+import { Injectable, Logger } from '@nestjs/common';
 import axios from 'axios';
 import * as _ from 'lodash';
-import * as messageRules from './message-rules.json';
-import { StableDiffusionService } from './stable-diffusion/stable-diffusion.service';
+
 import { ImgurService } from './imgur/imgur.service';
+import * as messageRules from './message-rules.json';
 import { RollerShutterService } from './roller-shutter/roller-shutter.service';
+import { StableDiffusionService } from './stable-diffusion/stable-diffusion.service';
 
 @Injectable()
 export class MessageService {
