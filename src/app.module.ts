@@ -15,6 +15,7 @@ import { RolesGuard } from './guards/roles.guard';
 import { PersonModule } from './person/person.module';
 import { Routes } from './routes';
 import { SessionSerializer } from './serializer/session.serializer';
+import { KanbanBoardsModule } from './kanban-boards/kanban-boards.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { SessionSerializer } from './serializer/session.serializer';
     UsersModule,
     AuthModule,
     PersonModule,
+    KanbanBoardsModule,
     Routes,
   ],
   controllers: [],

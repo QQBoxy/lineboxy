@@ -9,12 +9,19 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Validation
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+    }),
+  );
 
   // Session
   app.use(
     session({
-      name: 'lineboxy-session-id',
+      name: 'lineboxy_session_id',
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
@@ -34,7 +41,7 @@ async function bootstrap() {
     .setTitle('LineBoxy')
     .setDescription('This is the API document for the LineBoxy server.')
     .setVersion('1.0')
-    .addCookieAuth('lineboxy-session-id')
+    .addCookieAuth('lineboxy_session_id')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);

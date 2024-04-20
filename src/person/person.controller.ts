@@ -1,8 +1,9 @@
 import { Controller, Get, Request } from '@nestjs/common';
 import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from '../users/users.service';
-import { Role } from '../enums/role.enum';
 import { Roles } from '../decorators/roles.decorator';
+import { Role } from '../enums/role.enum';
+import { UserDto } from '../users/dto/user.dto';
 
 @ApiCookieAuth()
 @ApiTags('Person')
@@ -12,7 +13,7 @@ export class PersonController {
 
   @Get()
   @ApiOperation({ summary: 'Get Personal Information' })
-  @ApiResponse({ status: 200, description: 'Successful' })
+  @ApiResponse({ status: 200, description: 'Successful', type: UserDto })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
   read(@Request() req) {

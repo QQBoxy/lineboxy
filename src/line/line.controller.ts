@@ -4,7 +4,7 @@ import { WebhookEvent } from '@line/bot-sdk';
 import { Response } from 'express';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
-@ApiTags('LineBot')
+@ApiTags('Line')
 @Controller('line')
 export class LineController {
   constructor(private readonly lineService: LineService) {}
