@@ -7,6 +7,8 @@ import {
   Param,
   Patch,
   Post,
+  Query,
+  Request,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -14,6 +16,7 @@ import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagg
 import { Roles } from '../decorators/roles.decorator';
 import { Role } from '../enums/role.enum';
 import { CreateKanbanBoardDto } from './dto/create-kanban-board.dto';
+import { FindKanbanBoardDto } from './dto/find-kanban-board.dto';
 import { KanbanBoardDto } from './dto/kanban-board.dto';
 import { ListKanbanBoardDto } from './dto/list-kanban-board.dto';
 import { UpdateKanbanBoardDto } from './dto/update-kanban-board.dto';
@@ -35,8 +38,12 @@ export class KanbanBoardsController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  create(@Body() createKanbanBoardDto: CreateKanbanBoardDto) {
-    return this.kanbanBoardsService.create(createKanbanBoardDto);
+  create(@Request() req, @Body() createKanbanBoardDto: CreateKanbanBoardDto) {
+    const session: Session = req.session;
+    return this.kanbanBoardsService.create(
+      session.passport.user.id,
+      createKanbanBoardDto,
+    );
   }
 
   @Get()
@@ -48,8 +55,8 @@ export class KanbanBoardsController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  findAll() {
-    return this.kanbanBoardsService.findAll();
+  findAll(@Request() req: Req, @Query() findKanbanBoardDto: FindKanbanBoardDto) {
+    return this.kanbanBoardsService.findAll(req, findKanbanBoardDto);
   }
 
   @Get(':id')
@@ -57,8 +64,8 @@ export class KanbanBoardsController {
   @ApiResponse({ status: 200, description: 'Successful', type: KanbanBoardDto })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  findOne(@Param('id') id: number) {
-    return this.kanbanBoardsService.findOne(+id);
+  findOne(@Request() req: Req, @Param('id') id: number) {
+    return this.kanbanBoardsService.findOne(req, +id);
   }
 
   @Patch(':id')

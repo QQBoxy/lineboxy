@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { CreateUserDto } from './dto/create-user.dto';
+import { FindUserDto } from './dto/find-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 
@@ -23,8 +24,18 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  findAll() {
-    return this.usersRepository.find();
+  async findAll(findUserDto: FindUserDto) {
+    const [data, total] = await this.usersRepository.findAndCount({
+      order: {
+        createdAt: 'DESC',
+      },
+      skip: findUserDto.offset || 0,
+      take: findUserDto.limit || 10,
+    });
+    return {
+      data,
+      total,
+    };
   }
 
   findOne(id: number) {

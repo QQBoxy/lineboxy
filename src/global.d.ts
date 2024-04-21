@@ -1,6 +1,7 @@
 interface Session {
   passport?: {
     user: {
+      id: number;
       googleId: string;
       name: string;
       email: string;
@@ -8,4 +9,8 @@ interface Session {
       role: string;
     };
   };
+}
+
+interface Req {
+  session: Session;
 }

@@ -6,12 +6,14 @@ import {
   Get,
   Param,
   Patch,
+  Query,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { Roles } from '../decorators/roles.decorator';
 import { Role } from '../enums/role.enum';
+import { FindUserDto } from './dto/find-user.dto';
 import { ListUserDto } from './dto/list-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserDto } from './dto/user.dto';
@@ -33,8 +35,8 @@ export class UsersController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin)
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@Query() findUserDto: FindUserDto) {
+    return this.usersService.findAll(findUserDto);
   }
 
   @Get(':id')

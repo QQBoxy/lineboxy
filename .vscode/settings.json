@@ -1,7 +1,8 @@
 {
   "cSpell.words": [
     "Kanban",
-    "lineboxy"
+    "lineboxy",
+    "typeorm"
   ],
   "editor.tabSize": 2
 }
