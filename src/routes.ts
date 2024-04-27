@@ -1,6 +1,7 @@
 import { RouterModule } from '@nestjs/core';
 
 import { KanbanBoardsModule } from './kanban-boards/kanban-boards.module';
+import { KanbanListsModule } from './kanban-lists/kanban-lists.module';
 import { PersonModule } from './person/person.module';
 import { UsersModule } from './users/users.module';
 
@@ -19,6 +20,10 @@ export const Routes = RouterModule.register([
       {
         path: 'kanban-boards',
         module: KanbanBoardsModule,
+      },
+      {
+        path: 'kanban-lists',
+        module: KanbanListsModule,
       },
     ],
   },

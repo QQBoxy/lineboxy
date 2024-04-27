@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -17,8 +17,10 @@ export class KanbanBoardsService {
     private userRepository: Repository<User>,
   ) {}
 
-  async create(userId: number, createKanbanBoardDto: CreateKanbanBoardDto) {
-    const owner = await this.userRepository.findOneBy({ id: userId });
+  async create(req: Req, createKanbanBoardDto: CreateKanbanBoardDto) {
+    const owner = await this.userRepository.findOneBy({
+      id: req.session.passport.user.id,
+    });
 
     const kanbanBoard = new KanbanBoard();
     kanbanBoard.name = createKanbanBoardDto.name;
@@ -47,8 +49,8 @@ export class KanbanBoardsService {
     };
   }
 
-  findOne(req: Req, id: number) {
-    return this.kanbanBoardRepository.findOne({
+  async findOne(req: Req, id: number) {
+    const kanbanBoard = await this.kanbanBoardRepository.findOne({
       relations: ['owners'],
       where: {
         id: id,
@@ -57,17 +59,53 @@ export class KanbanBoardsService {
         },
       },
     });
+    if (!kanbanBoard) {
+      throw new NotFoundException();
+    }
+    return kanbanBoard;
   }
 
-  async update(id: number, updateKanbanBoardDto: UpdateKanbanBoardDto) {
-    const kanbanBoard = new KanbanBoard();
-    kanbanBoard.name = updateKanbanBoardDto.name;
-    kanbanBoard.updatedAt = new Date();
-    await this.kanbanBoardRepository.update({ id: id }, kanbanBoard);
+  async update(req: Req, id: number, updateKanbanBoardDto: UpdateKanbanBoardDto) {
+    // Check board exists
+    const kanbanBoard = await this.kanbanBoardRepository.findOne({
+      relations: ['owners'],
+      where: {
+        id: id,
+        owners: {
+          id: req.session.passport.user.id,
+        },
+      },
+    });
+    if (!kanbanBoard) {
+      throw new UnauthorizedException();
+    }
+    // Update
+    const newKanbanBoard = new KanbanBoard();
+    newKanbanBoard.name = updateKanbanBoardDto.name;
+    newKanbanBoard.updatedAt = new Date();
+    await this.kanbanBoardRepository.update(
+      {
+        id: kanbanBoard.id,
+      },
+      newKanbanBoard,
+    );
     return this.kanbanBoardRepository.findOneBy({ id: id });
   }
 
-  remove(id: number) {
+  async remove(req: Req, id: number) {
+    // Check board exists
+    const kanbanBoard = await this.kanbanBoardRepository.findOne({
+      relations: ['owners'],
+      where: {
+        id: id,
+        owners: {
+          id: req.session.passport.user.id,
+        },
+      },
+    });
+    if (!kanbanBoard) {
+      throw new UnauthorizedException();
+    }
     return this.kanbanBoardRepository.delete(id);
   }
 }

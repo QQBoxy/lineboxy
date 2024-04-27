@@ -10,6 +10,7 @@ import { DataSource } from 'typeorm';
 import { AuthModule } from './auth/auth.module';
 import { RolesGuard } from './guards/roles.guard';
 import { KanbanBoardsModule } from './kanban-boards/kanban-boards.module';
+import { KanbanListsModule } from './kanban-lists/kanban-lists.module';
 import { LineModule } from './line/line.module';
 import { PersonModule } from './person/person.module';
 import { Routes } from './routes';
@@ -37,6 +38,7 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     PersonModule,
     KanbanBoardsModule,
+    KanbanListsModule,
   ],
   controllers: [],
   providers: [

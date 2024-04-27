@@ -38,12 +38,8 @@ export class KanbanBoardsController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  create(@Request() req, @Body() createKanbanBoardDto: CreateKanbanBoardDto) {
-    const session: Session = req.session;
-    return this.kanbanBoardsService.create(
-      session.passport.user.id,
-      createKanbanBoardDto,
-    );
+  create(@Request() req: Req, @Body() createKanbanBoardDto: CreateKanbanBoardDto) {
+    return this.kanbanBoardsService.create(req, createKanbanBoardDto);
   }
 
   @Get()
@@ -73,8 +69,12 @@ export class KanbanBoardsController {
   @ApiResponse({ status: 200, description: 'Successful', type: KanbanBoardDto })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  update(@Param('id') id: number, @Body() updateKanbanBoardDto: UpdateKanbanBoardDto) {
-    return this.kanbanBoardsService.update(+id, updateKanbanBoardDto);
+  update(
+    @Request() req: Req,
+    @Param('id') id: number,
+    @Body() updateKanbanBoardDto: UpdateKanbanBoardDto,
+  ) {
+    return this.kanbanBoardsService.update(req, +id, updateKanbanBoardDto);
   }
 
   @Delete(':id')
@@ -82,7 +82,7 @@ export class KanbanBoardsController {
   @ApiResponse({ status: 200, description: 'Successful' })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  remove(@Param('id') id: number) {
-    return this.kanbanBoardsService.remove(+id);
+  remove(@Request() req: Req, @Param('id') id: number) {
+    return this.kanbanBoardsService.remove(req, +id);
   }
 }

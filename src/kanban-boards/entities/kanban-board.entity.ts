@@ -5,9 +5,11 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { KanbanList } from '../../kanban-lists/entities/kanban-lists.entity';
 import { User } from '../../users/entities/user.entity';
 
 @Entity()
@@ -22,6 +24,9 @@ export class KanbanBoard {
 
   @Column()
   name: string;
+
+  @OneToMany(() => KanbanList, (list) => list.board)
+  lists: KanbanList[];
 
   @CreateDateColumn()
   createdAt: Date;
