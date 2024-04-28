@@ -38,7 +38,7 @@ export class KanbanBoardsController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  create(@Request() req: Req, @Body() createKanbanBoardDto: CreateKanbanBoardDto) {
+  create(@Request() req: Request, @Body() createKanbanBoardDto: CreateKanbanBoardDto) {
     return this.kanbanBoardsService.create(req, createKanbanBoardDto);
   }
 
@@ -51,7 +51,7 @@ export class KanbanBoardsController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  findAll(@Request() req: Req, @Query() findKanbanBoardDto: FindKanbanBoardDto) {
+  findAll(@Request() req: Request, @Query() findKanbanBoardDto: FindKanbanBoardDto) {
     return this.kanbanBoardsService.findAll(req, findKanbanBoardDto);
   }
 
@@ -60,7 +60,7 @@ export class KanbanBoardsController {
   @ApiResponse({ status: 200, description: 'Successful', type: KanbanBoardDto })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  findOne(@Request() req: Req, @Param('id') id: number) {
+  findOne(@Request() req: Request, @Param('id') id: number) {
     return this.kanbanBoardsService.findOne(req, +id);
   }
 
@@ -70,7 +70,7 @@ export class KanbanBoardsController {
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
   update(
-    @Request() req: Req,
+    @Request() req: Request,
     @Param('id') id: number,
     @Body() updateKanbanBoardDto: UpdateKanbanBoardDto,
   ) {
@@ -82,7 +82,7 @@ export class KanbanBoardsController {
   @ApiResponse({ status: 200, description: 'Successful' })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  remove(@Request() req: Req, @Param('id') id: number) {
+  remove(@Request() req: Request, @Param('id') id: number) {
     return this.kanbanBoardsService.remove(req, +id);
   }
 }

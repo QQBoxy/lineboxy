@@ -17,7 +17,7 @@ export class KanbanBoardsService {
     private userRepository: Repository<User>,
   ) {}
 
-  async create(req: Req, createKanbanBoardDto: CreateKanbanBoardDto) {
+  async create(req: Request, createKanbanBoardDto: CreateKanbanBoardDto) {
     const owner = await this.userRepository.findOneBy({
       id: req.session.passport.user.id,
     });
@@ -29,7 +29,7 @@ export class KanbanBoardsService {
     return await this.kanbanBoardRepository.save(kanbanBoard);
   }
 
-  async findAll(req: Req, findKanbanBoardDto: FindKanbanBoardDto) {
+  async findAll(req: Request, findKanbanBoardDto: FindKanbanBoardDto) {
     const [data, total] = await this.kanbanBoardRepository.findAndCount({
       relations: ['owners'],
       where: {
@@ -49,7 +49,7 @@ export class KanbanBoardsService {
     };
   }
 
-  async findOne(req: Req, id: number) {
+  async findOne(req: Request, id: number) {
     const kanbanBoard = await this.kanbanBoardRepository.findOne({
       relations: ['owners'],
       where: {
@@ -65,7 +65,7 @@ export class KanbanBoardsService {
     return kanbanBoard;
   }
 
-  async update(req: Req, id: number, updateKanbanBoardDto: UpdateKanbanBoardDto) {
+  async update(req: Request, id: number, updateKanbanBoardDto: UpdateKanbanBoardDto) {
     // Check board exists
     const kanbanBoard = await this.kanbanBoardRepository.findOne({
       relations: ['owners'],
@@ -92,7 +92,7 @@ export class KanbanBoardsService {
     return this.kanbanBoardRepository.findOneBy({ id: id });
   }
 
-  async remove(req: Req, id: number) {
+  async remove(req: Request, id: number) {
     // Check board exists
     const kanbanBoard = await this.kanbanBoardRepository.findOne({
       relations: ['owners'],

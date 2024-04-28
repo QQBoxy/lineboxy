@@ -19,8 +19,8 @@ export class RolesGuard extends AuthGuard('google') implements CanActivate {
     if (!requiredRoles) {
       return true;
     }
-    const req = context.switchToHttp().getRequest();
-    const session: Session = req.session;
+    const req: Request = context.switchToHttp().getRequest();
+    const session = req.session;
 
     return requiredRoles.some((role) => session.passport?.user?.role === role);
   }

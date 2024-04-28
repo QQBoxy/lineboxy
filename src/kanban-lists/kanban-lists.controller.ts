@@ -38,7 +38,7 @@ export class KanbanListsController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  create(@Request() req: Req, @Body() createKanbanListsDto: CreateKanbanListsDto) {
+  create(@Request() req: Request, @Body() createKanbanListsDto: CreateKanbanListsDto) {
     return this.kanbanListsService.create(req, createKanbanListsDto);
   }
 
@@ -51,7 +51,7 @@ export class KanbanListsController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  findAll(@Request() req: Req, @Query() findKanbanListDto: FindKanbanListDto) {
+  findAll(@Request() req: Request, @Query() findKanbanListDto: FindKanbanListDto) {
     return this.kanbanListsService.findAll(req, findKanbanListDto);
   }
 
@@ -61,7 +61,7 @@ export class KanbanListsController {
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @ApiResponse({ status: 404, description: 'Not Found' })
   @Roles(Role.Admin, Role.User)
-  findOne(@Request() req: Req, @Param('id') id: string) {
+  findOne(@Request() req: Request, @Param('id') id: string) {
     return this.kanbanListsService.findOne(req, +id);
   }
 
@@ -73,7 +73,7 @@ export class KanbanListsController {
   @ApiResponse({ status: 404, description: 'Not Found' })
   @Roles(Role.Admin, Role.User)
   update(
-    @Request() req: Req,
+    @Request() req: Request,
     @Param('id') id: string,
     @Body() updateKanbanListsDto: UpdateKanbanListsDto,
   ) {
@@ -86,7 +86,7 @@ export class KanbanListsController {
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @ApiResponse({ status: 404, description: 'Not Found' })
   @Roles(Role.Admin, Role.User)
-  remove(@Request() req: Req, @Param('id') id: string) {
+  remove(@Request() req: Request, @Param('id') id: string) {
     return this.kanbanListsService.remove(req, +id);
   }
 }

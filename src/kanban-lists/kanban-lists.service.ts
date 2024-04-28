@@ -21,7 +21,7 @@ export class KanbanListsService {
     @InjectRepository(KanbanBoard)
     private kanbanBoardRepository: Repository<KanbanBoard>,
   ) {}
-  async create(req: Req, createKanbanListsDto: CreateKanbanListsDto) {
+  async create(req: Request, createKanbanListsDto: CreateKanbanListsDto) {
     // Check board exists
     const board = await this.kanbanBoardRepository.findOne({
       relations: ['owners'],
@@ -57,7 +57,7 @@ export class KanbanListsService {
     return await this.kanbanListRepository.save(kanbanList);
   }
 
-  async findAll(req: Req, findKanbanListDto: FindKanbanListDto) {
+  async findAll(req: Request, findKanbanListDto: FindKanbanListDto) {
     // Check board exists
     const board = await this.kanbanBoardRepository.findOne({
       relations: ['owners'],
@@ -94,7 +94,7 @@ export class KanbanListsService {
     };
   }
 
-  async findOne(req: Req, id: number) {
+  async findOne(req: Request, id: number) {
     // Get list
     const list = await this.kanbanListRepository.findOne({
       relations: ['board'],
@@ -121,7 +121,7 @@ export class KanbanListsService {
     return list;
   }
 
-  async update(req: Req, id: number, updateKanbanListsDto: UpdateKanbanListsDto) {
+  async update(req: Request, id: number, updateKanbanListsDto: UpdateKanbanListsDto) {
     // Get list
     const list = await this.kanbanListRepository.findOne({
       relations: ['board'],
@@ -188,7 +188,7 @@ export class KanbanListsService {
     };
   }
 
-  async remove(req: Req, id: number) {
+  async remove(req: Request, id: number) {
     // Get list
     const list = await this.kanbanListRepository.findOne({
       relations: ['board'],

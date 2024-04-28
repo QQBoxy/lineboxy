@@ -1,14 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Profile } from 'passport-google-oauth20';
 
 import { Role } from '../enums/role.enum';
 import { UsersService } from '../users/users.service';
-
-interface User {
-  accessToken: string;
-  refreshToken: string;
-  profile: Profile;
-}
 
 interface Redirect {
   message: string;
@@ -19,7 +12,7 @@ interface Redirect {
 export class AuthService {
   constructor(private readonly usersService: UsersService) {}
 
-  async validateUser(req: { user: User; session: Session }): Promise<Redirect> {
+  async validateUser(req: Request): Promise<Redirect> {
     if (!req.user) {
       return {
         message: 'No user from google',

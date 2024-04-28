@@ -17,7 +17,7 @@ export class PersonController {
   @ApiResponse({ status: 200, description: 'Successful', type: UserDto })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  read(@Request() req: Req) {
+  read(@Request() req: Request) {
     return req.session.passport.user;
   }
 }

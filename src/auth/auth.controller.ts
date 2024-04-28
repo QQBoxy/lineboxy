@@ -64,13 +64,13 @@ export class AuthController {
   })
   @ApiResponse({ status: 200, description: 'Redirect to `/logout?code=SUCCESSFUL`' })
   @Redirect('/', 302)
-  async googleAuthLogout(@Request() req) {
+  async googleAuthLogout(@Request() req: Request) {
     await new Promise<void>((resolve) => {
-      req.logout(() => {
-        resolve();
-      });
+      req.logout(resolve);
     });
-    req.session.destroy();
+    await new Promise<void>((resolve) => {
+      req.session.destroy(resolve);
+    });
     return { url: '/logout?code=SUCCESSFUL' };
   }
 }

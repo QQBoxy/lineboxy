@@ -1,4 +1,7 @@
-interface Session {
+import { Profile } from '@types/passport-google-oauth20';
+import { Session as ExpressSession } from 'express-session';
+
+interface Session extends ExpressSession {
   passport?: {
     user: {
       id: number;
@@ -11,6 +14,13 @@ interface Session {
   };
 }
 
-interface Req {
-  session: Session;
+declare global {
+  interface Request extends Express.Request {
+    session: Session;
+    user?: {
+      accessToken: string;
+      refreshToken: string;
+      profile: Profile;
+    };
+  }
 }
