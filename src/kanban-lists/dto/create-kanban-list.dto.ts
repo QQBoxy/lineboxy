@@ -1,9 +1,9 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { IsInt, IsNotEmpty } from 'class-validator';
 
-import { KanbanListsDto } from './kanban-lists.dto';
+import { KanbanListDto } from './kanban-list.dto';
 
-export class CreateKanbanListsDto extends PickType(KanbanListsDto, ['name']) {
+export class CreateKanbanListDto extends PickType(KanbanListDto, ['name']) {
   @IsInt()
   @IsNotEmpty()
   @ApiProperty({ description: 'Kanban Board ID', example: 1 })

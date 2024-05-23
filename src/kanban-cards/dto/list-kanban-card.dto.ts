@@ -1,14 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { instanceToPlain } from 'class-transformer';
 
-import { KanbanListDto } from './kanban-list.dto';
+import { KanbanCardDto } from './kanban-card.dto';
 
-export class ListKanbanListDto {
+export class ListKanbanCardDto {
   @ApiProperty({
     isArray: true,
-    type: instanceToPlain(KanbanListDto),
+    type: instanceToPlain(KanbanCardDto),
   })
-  public data: Array<InstanceType<typeof KanbanListDto>>;
+  public data: Array<InstanceType<typeof KanbanCardDto>>;
 
   @ApiProperty({ example: 1 })
   public total: number;

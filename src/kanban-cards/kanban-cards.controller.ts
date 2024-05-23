@@ -15,59 +15,59 @@ import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagg
 
 import { Roles } from '../decorators/roles.decorator';
 import { Role } from '../enums/role.enum';
-import { CreateKanbanListDto } from './dto/create-kanban-list.dto';
-import { FindKanbanListDto } from './dto/find-kanban-list.dto';
-import { KanbanListDto } from './dto/kanban-list.dto';
-import { ListKanbanListDto } from './dto/list-kanban-list.dto';
-import { UpdateKanbanListsDto } from './dto/update-kanban-list.dto';
-import { KanbanListsService } from './kanban-lists.service';
+import { CreateKanbanCardDto } from './dto/create-kanban-card.dto';
+import { FindKanbanCardDto } from './dto/find-kanban-card.dto';
+import { KanbanCardDto } from './dto/kanban-card.dto';
+import { ListKanbanCardDto } from './dto/list-kanban-card.dto';
+import { UpdateKanbanCardDto } from './dto/update-kanban-card.dto';
+import { KanbanCardsService } from './kanban-cards.service';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @ApiCookieAuth()
-@ApiTags('KanbanLists')
+@ApiTags('KanbanCards')
 @Controller()
-export class KanbanListsController {
-  constructor(private readonly kanbanListsService: KanbanListsService) {}
+export class KanbanCardsController {
+  constructor(private readonly kanbanCardsService: KanbanCardsService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create New Kanban List' })
+  @ApiOperation({ summary: 'Create New Kanban Card' })
   @ApiResponse({
     status: 201,
     description: 'Successful',
-    type: KanbanListDto,
+    type: KanbanCardDto,
   })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  create(@Request() req: Request, @Body() createKanbanListDto: CreateKanbanListDto) {
-    return this.kanbanListsService.create(req, createKanbanListDto);
+  create(@Request() req: Request, @Body() createKanbanCardDto: CreateKanbanCardDto) {
+    return this.kanbanCardsService.create(req, createKanbanCardDto);
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get All Kanban Lists' })
+  @ApiOperation({ summary: 'Get All Kanban Cards' })
   @ApiResponse({
     status: 200,
     description: 'Successful',
-    type: ListKanbanListDto,
+    type: ListKanbanCardDto,
   })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  findAll(@Request() req: Request, @Query() findKanbanListDto: FindKanbanListDto) {
-    return this.kanbanListsService.findAll(req, findKanbanListDto);
+  findAll(@Request() req: Request, @Query() findKanbanCardDto: FindKanbanCardDto) {
+    return this.kanbanCardsService.findAll(req, findKanbanCardDto);
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get Kanban List by ID' })
-  @ApiResponse({ status: 200, description: 'Successful', type: KanbanListDto })
+  @ApiOperation({ summary: 'Get Kanban Card by ID' })
+  @ApiResponse({ status: 200, description: 'Successful', type: KanbanCardDto })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @ApiResponse({ status: 404, description: 'Not Found' })
   @Roles(Role.Admin, Role.User)
   findOne(@Request() req: Request, @Param('id') id: string) {
-    return this.kanbanListsService.findOne(req, +id);
+    return this.kanbanCardsService.findOne(req, +id);
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Update Kanban List by ID' })
-  @ApiResponse({ status: 200, description: 'Successful', type: ListKanbanListDto })
+  @ApiOperation({ summary: 'Update Kanban Card by ID' })
+  @ApiResponse({ status: 200, description: 'Successful', type: ListKanbanCardDto })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @ApiResponse({ status: 404, description: 'Not Found' })
@@ -75,18 +75,18 @@ export class KanbanListsController {
   update(
     @Request() req: Request,
     @Param('id') id: string,
-    @Body() updateKanbanListsDto: UpdateKanbanListsDto,
+    @Body() updateKanbanCardDto: UpdateKanbanCardDto,
   ) {
-    return this.kanbanListsService.update(req, +id, updateKanbanListsDto);
+    return this.kanbanCardsService.update(req, +id, updateKanbanCardDto);
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete Kanban List by ID' })
+  @ApiOperation({ summary: 'Delete Kanban Card by ID' })
   @ApiResponse({ status: 200, description: 'Successful' })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @ApiResponse({ status: 404, description: 'Not Found' })
   @Roles(Role.Admin, Role.User)
   remove(@Request() req: Request, @Param('id') id: string) {
-    return this.kanbanListsService.remove(req, +id);
+    return this.kanbanCardsService.remove(req, +id);
   }
 }

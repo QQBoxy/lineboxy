@@ -8,9 +8,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Between, Repository } from 'typeorm';
 
 import { KanbanBoard } from '../kanban-boards/entities/kanban-board.entity';
-import { CreateKanbanListsDto } from './dto/create-kanban-lists.dto';
+import { CreateKanbanListDto } from './dto/create-kanban-list.dto';
 import { FindKanbanListDto } from './dto/find-kanban-list.dto';
-import { UpdateKanbanListsDto } from './dto/update-kanban-lists.dto';
+import { UpdateKanbanListsDto } from './dto/update-kanban-list.dto';
 import { KanbanList } from './entities/kanban-lists.entity';
 
 @Injectable()
@@ -21,12 +21,12 @@ export class KanbanListsService {
     @InjectRepository(KanbanBoard)
     private kanbanBoardRepository: Repository<KanbanBoard>,
   ) {}
-  async create(req: Request, createKanbanListsDto: CreateKanbanListsDto) {
+  async create(req: Request, createKanbanListDto: CreateKanbanListDto) {
     // Check board exists
     const board = await this.kanbanBoardRepository.findOne({
       relations: ['owners'],
       where: {
-        id: createKanbanListsDto.boardId,
+        id: createKanbanListDto.boardId,
         owners: {
           id: req.session.passport.user.id,
         },
@@ -50,7 +50,7 @@ export class KanbanListsService {
     const nextOrder = list?.order + 1 || 0;
     // Create new list
     const kanbanList = new KanbanList();
-    kanbanList.name = createKanbanListsDto.name;
+    kanbanList.name = createKanbanListDto.name;
     kanbanList.order = nextOrder;
     kanbanList.board = board;
 
@@ -100,23 +100,15 @@ export class KanbanListsService {
       relations: ['board'],
       where: {
         id: id,
+        board: {
+          owners: {
+            id: req.session.passport.user.id,
+          },
+        },
       },
     });
     if (!list) {
       throw new NotFoundException();
-    }
-    // Check board exists
-    const board = await this.kanbanBoardRepository.findOne({
-      relations: ['owners'],
-      where: {
-        id: list.board.id,
-        owners: {
-          id: req.session.passport.user.id,
-        },
-      },
-    });
-    if (!board) {
-      throw new UnauthorizedException();
     }
     return list;
   }
@@ -174,11 +166,10 @@ export class KanbanListsService {
           kanbanList.name = updateKanbanListsDto.name;
         }
         list.order = updateKanbanListsDto.order;
-        kanbanList.order = list.order;
       } else {
         list.order += increase;
-        kanbanList.order = list.order;
       }
+      kanbanList.order = list.order;
       kanbanList.updatedAt = new Date();
       await this.kanbanListRepository.update({ id: list.id }, kanbanList);
     }

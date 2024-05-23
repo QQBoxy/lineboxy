@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 
-export class KanbanListsDto {
+export class KanbanListDto {
   @IsInt()
   @ApiProperty({ description: 'Kanban Lists ID', example: 1 })
   id: number;

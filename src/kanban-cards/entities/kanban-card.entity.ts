@@ -4,29 +4,27 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { KanbanBoard } from '../../kanban-boards/entities/kanban-board.entity';
-import { KanbanCard } from '../../kanban-cards/entities/kanban-card.entity';
+import { KanbanList } from '../../kanban-lists/entities/kanban-lists.entity';
 
 @Entity()
-export class KanbanList {
+export class KanbanCard {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Exclude()
-  @ManyToOne(() => KanbanBoard, (board) => board.lists, {
+  @ManyToOne(() => KanbanList, (list) => list.cards, {
     onDelete: 'CASCADE',
   })
-  board: KanbanBoard;
-
-  @OneToMany(() => KanbanCard, (card) => card.list)
-  cards: KanbanCard[];
+  list: KanbanList;
 
   @Column()
-  name: string;
+  title: string;
+
+  @Column()
+  description: string;
 
   @Column()
   order: number;
