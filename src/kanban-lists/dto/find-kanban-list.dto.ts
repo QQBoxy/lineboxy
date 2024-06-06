@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsInt, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class FindKanbanListDto {
@@ -9,11 +9,11 @@ export class FindKanbanListDto {
 
   @IsInt()
   @IsOptional()
-  @ApiProperty({ description: 'Offset', example: 0 })
+  @ApiPropertyOptional({ description: 'Offset', example: 0 })
   offset: number;
 
   @IsInt()
   @IsOptional()
-  @ApiProperty({ description: 'Limit', example: 10 })
+  @ApiPropertyOptional({ description: 'Limit', example: 10 })
   limit: number;
 }

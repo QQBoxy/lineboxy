@@ -1,14 +1,14 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiPropertyOptional, ApiQuery } from '@nestjs/swagger';
 import { IsInt, IsOptional } from 'class-validator';
 
 export class FindKanbanBoardDto {
   @IsInt()
   @IsOptional()
-  @ApiProperty({ description: 'Offset', example: 0 })
+  @ApiPropertyOptional({ description: 'Offset', example: 0 })
   offset: number;
 
   @IsInt()
   @IsOptional()
-  @ApiProperty({ description: 'Limit', example: 10 })
+  @ApiPropertyOptional({ description: 'Limit', example: 10 })
   limit: number;
 }
