@@ -44,7 +44,7 @@ export class KanbanListsService {
         },
       },
       order: {
-        createdAt: 'DESC',
+        order: 'DESC',
       },
     });
     const nextOrder = list?.order + 1 || 0;
