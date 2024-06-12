@@ -139,8 +139,6 @@ export class KanbanListsService {
     if (boundary[0] > boundary[1]) {
       boundary.reverse();
     }
-    // Lists length
-    const length = boundary[1] - boundary[0] + 1;
     // Get target lists
     const lists = await this.kanbanListRepository.find({
       relations: ['board'],
@@ -152,7 +150,7 @@ export class KanbanListsService {
       },
     });
     // Check length
-    if (lists.length !== length) {
+    if (lists.length < 1) {
       throw new BadRequestException();
     }
     // Increase or decrease order
@@ -175,7 +173,7 @@ export class KanbanListsService {
     }
     return {
       data: lists,
-      total: length,
+      total: lists.length,
     };
   }
 

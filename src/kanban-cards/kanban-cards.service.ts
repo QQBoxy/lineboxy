@@ -135,8 +135,6 @@ export class KanbanCardsService {
     if (boundary[0] > boundary[1]) {
       boundary.reverse();
     }
-    // Cards length
-    const length = boundary[1] - boundary[0] + 1;
     // Get target cards
     const cards = await this.kanbanCardRepository.find({
       relations: ['list'],
@@ -148,7 +146,7 @@ export class KanbanCardsService {
       },
     });
     // Check length
-    if (cards.length !== length) {
+    if (cards.length < 1) {
       throw new BadRequestException();
     }
     // Increase or decrease order
@@ -174,7 +172,7 @@ export class KanbanCardsService {
     }
     return {
       data: cards,
-      total: length,
+      total: cards.length,
     };
   }
 
