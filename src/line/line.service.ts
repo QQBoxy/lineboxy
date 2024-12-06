@@ -1,4 +1,4 @@
-import { Client, WebhookEvent } from '@line/bot-sdk';
+import { messagingApi, WebhookEvent } from '@line/bot-sdk';
 import { Injectable } from '@nestjs/common';
 
 import { MessageService } from './message/message.service';
@@ -7,9 +7,9 @@ import { MessageService } from './message/message.service';
 export class LineService {
   constructor(private readonly messageService: MessageService) {}
   async create(events: WebhookEvent[]) {
-    const client = new Client({
+    const { MessagingApiClient } = messagingApi;
+    const client = new MessagingApiClient({
       channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
-      channelSecret: process.env.LINE_CHANNEL_SECRET,
     });
 
     return await Promise.all(

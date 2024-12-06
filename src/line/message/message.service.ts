@@ -1,4 +1,4 @@
-import { Client, MessageEvent } from '@line/bot-sdk';
+import { MessageEvent, messagingApi } from '@line/bot-sdk';
 import { Injectable, Logger } from '@nestjs/common';
 import axios from 'axios';
 import * as _ from 'lodash';
@@ -16,7 +16,7 @@ export class MessageService {
     private readonly imgurService: ImgurService,
     private readonly rollerShutterService: RollerShutterService,
   ) {}
-  async create(client, event: MessageEvent) {
+  async create(client: messagingApi.MessagingApiClient, event: MessageEvent) {
     try {
       // 整理設定檔訊息規則
       const rules = messageRules.map((rule) => ({
@@ -75,33 +75,53 @@ export class MessageService {
       }
       // 一般訊息
       if (rule.type === 'text') {
-        return client.replyMessage(event.replyToken, {
-          type: 'text',
-          text: rule.reply,
+        return client.replyMessage({
+          replyToken: event.replyToken,
+          messages: [
+            {
+              type: 'text',
+              text: rule.reply,
+            },
+          ],
         });
       }
       // Stable Diffusion
       if (rule.type === 'stable-diffusion') {
         const base64Image = await this.stableDiffusionService.create();
         if (!base64Image) {
-          return client.replyMessage(event.replyToken, {
-            type: 'text',
-            text: 'Stable Diffusion offline.',
+          return client.replyMessage({
+            replyToken: event.replyToken,
+            messages: [
+              {
+                type: 'text',
+                text: 'Stable Diffusion offline.',
+              },
+            ],
           });
         }
         const url = await this.imgurService.create(base64Image);
-        return client.replyMessage(event.replyToken, {
-          type: 'image',
-          originalContentUrl: url,
-          previewImageUrl: url,
+        return client.replyMessage({
+          replyToken: event.replyToken,
+          messages: [
+            {
+              type: 'image',
+              originalContentUrl: url,
+              previewImageUrl: url,
+            },
+          ],
         });
       }
       // Roller Shutter
       if (rule.type === 'roller-shutter') {
         await this.rollerShutterService.create();
-        return client.replyMessage(event.replyToken, {
-          type: 'text',
-          text: '已送出鐵捲門開啟命令',
+        return client.replyMessage({
+          replyToken: event.replyToken,
+          messages: [
+            {
+              type: 'text',
+              text: '已送出鐵捲門開啟命令',
+            },
+          ],
         });
       }
       // Line 貼圖回覆
@@ -110,15 +130,20 @@ export class MessageService {
         if (Math.random() > 0.3) {
           return null;
         }
-        return client.replyMessage(event.replyToken, {
-          type: 'sticker',
-          packageId: rule.packageId,
-          stickerId: rule.stickerId,
+        return client.replyMessage({
+          replyToken: event.replyToken,
+          messages: [
+            {
+              type: 'sticker',
+              packageId: rule.packageId,
+              stickerId: rule.stickerId,
+            },
+          ],
         });
       }
       // Line Info tool
       if (rule.type === 'line-info') {
-        const messages = [
+        const messages: messagingApi.Message[] = [
           {
             type: 'text',
             text: `userId：${userId}`,
@@ -130,15 +155,23 @@ export class MessageService {
             text: `groupId：${groupId}`,
           });
         }
-        return client.replyMessage(event.replyToken, messages);
+        return client.replyMessage({
+          replyToken: event.replyToken,
+          messages: messages,
+        });
       }
       // Line sticker tool
       if (rule.type === 'line-sticker') {
         const keys = text.split(' ');
-        return client.replyMessage(event.replyToken, {
-          type: 'sticker',
-          packageId: keys[1],
-          stickerId: keys[2],
+        return client.replyMessage({
+          replyToken: event.replyToken,
+          messages: [
+            {
+              type: 'sticker',
+              packageId: keys[1],
+              stickerId: keys[2],
+            },
+          ],
         });
       }
       // Line flex tool
@@ -146,10 +179,15 @@ export class MessageService {
         const str = text.substring(5);
         try {
           const contents = JSON.parse(str);
-          return client.replyMessage(event.replyToken, {
-            type: 'flex',
-            altText: 'Line Flex',
-            contents,
+          return client.replyMessage({
+            replyToken: event.replyToken,
+            messages: [
+              {
+                type: 'flex',
+                altText: 'Line Flex',
+                contents,
+              },
+            ],
           });
         } catch (e) {
           throw {
@@ -162,9 +200,14 @@ export class MessageService {
       }
     } catch (e) {
       console.log(e);
-      return client.replyMessage(event.replyToken, {
-        type: 'text',
-        text: e?.error?.message || 'Server Error.',
+      return client.replyMessage({
+        replyToken: event.replyToken,
+        messages: [
+          {
+            type: 'text',
+            text: e?.error?.message || 'Server Error.',
+          },
+        ],
       });
     }
   }

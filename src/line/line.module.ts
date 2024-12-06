@@ -1,6 +1,7 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 
 import { LineController } from './line.controller';
+import { LineMiddleware } from './line.middleware';
 import { LineService } from './line.service';
 import { MessageModule } from './message/message.module';
 
@@ -9,4 +10,9 @@ import { MessageModule } from './message/message.module';
   providers: [LineService],
   imports: [MessageModule],
 })
-export class LineModule {}
+// export class LineModule {}
+export class LineModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LineMiddleware).forRoutes(LineController);
+  }
+}

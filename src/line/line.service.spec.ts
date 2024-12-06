@@ -1,13 +1,23 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { LineService } from './line.service';
+import { ImgurService } from './message/imgur/imgur.service';
+import { MessageService } from './message/message.service';
+import { RollerShutterService } from './message/roller-shutter/roller-shutter.service';
+import { StableDiffusionService } from './message/stable-diffusion/stable-diffusion.service';
 
 describe('LineService', () => {
   let service: LineService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [LineService],
+      providers: [
+        LineService,
+        MessageService,
+        StableDiffusionService,
+        ImgurService,
+        RollerShutterService,
+      ],
     }).compile();
 
     service = module.get<LineService>(LineService);
