@@ -87,7 +87,8 @@ export class MessageService {
       }
       // Stable Diffusion
       if (rule.type === 'stable-diffusion') {
-        const base64Image = await this.stableDiffusionService.create();
+        const prompt: string = text.substring(3);
+        const base64Image = await this.stableDiffusionService.create(prompt);
         if (!base64Image) {
           return client.replyMessage({
             replyToken: event.replyToken,

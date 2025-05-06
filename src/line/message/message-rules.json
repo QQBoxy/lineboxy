@@ -24,7 +24,7 @@
         "enable": true
     },
     {
-        "regexp": "^sd$",
+        "regexp": "^sd(?:\\s(.*))?$",
         "type": "stable-diffusion",
         "enable": true
     },

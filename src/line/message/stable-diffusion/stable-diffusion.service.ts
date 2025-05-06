@@ -3,7 +3,7 @@ import axios from 'axios';
 
 @Injectable()
 export class StableDiffusionService {
-  async create(): Promise<string> {
+  async create(prompt?: string): Promise<string> {
     try {
       const res = await axios({
         method: 'post',
@@ -13,7 +13,7 @@ export class StableDiffusionService {
         ).href,
         headers: { Authorization: process.env.IMGUR_CLIENT_ID },
         data: {
-          prompt: '1girl',
+          prompt: prompt ?? '1girl',
           negative_prompt:
             '!,bad_prompt_version2,  ng_deepnegative_v1_75t, easynegative, (low quality:1.4), (worst quality), signature, watermark, username, blurry, artist name, trademark, watermark',
           steps: 20,
