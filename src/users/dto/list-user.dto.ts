@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { instanceToPlain } from 'class-transformer';
 
 import { UserDto } from './user.dto';
 

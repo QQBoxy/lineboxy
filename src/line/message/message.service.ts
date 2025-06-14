@@ -1,6 +1,5 @@
 import { MessageEvent, messagingApi } from '@line/bot-sdk';
 import { Injectable, Logger } from '@nestjs/common';
-import axios from 'axios';
 import * as _ from 'lodash';
 
 import { ImgurService } from './imgur/imgur.service';
