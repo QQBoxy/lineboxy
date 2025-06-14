@@ -6,9 +6,10 @@ import { UserDto } from './user.dto';
 export class ListUserDto {
   @ApiProperty({
     isArray: true,
-    type: instanceToPlain(UserDto),
+    type: UserDto,
+    enumName: 'UserDto',
   })
-  public data: Array<InstanceType<typeof UserDto>>;
+  public data: Array<UserDto>;
 
   @ApiProperty({ example: 1 })
   public total: number;

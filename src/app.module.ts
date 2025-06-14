@@ -13,6 +13,7 @@ import { KanbanBoardsModule } from './kanban-boards/kanban-boards.module';
 import { KanbanCardsModule } from './kanban-cards/kanban-cards.module';
 import { KanbanListsModule } from './kanban-lists/kanban-lists.module';
 import { LineModule } from './line/line.module';
+import { MqttModule } from './mqtt/mqtt.module';
 import { PersonModule } from './person/person.module';
 import { Routes } from './routes';
 import { SessionSerializer } from './serializer/session.serializer';
@@ -41,6 +42,7 @@ import { UsersModule } from './users/users.module';
     KanbanBoardsModule,
     KanbanListsModule,
     KanbanCardsModule,
+    MqttModule,
   ],
   controllers: [],
   providers: [

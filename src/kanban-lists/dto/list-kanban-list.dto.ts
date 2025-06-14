@@ -6,9 +6,10 @@ import { KanbanListDto } from './kanban-list.dto';
 export class ListKanbanListDto {
   @ApiProperty({
     isArray: true,
-    type: instanceToPlain(KanbanListDto),
+    type: KanbanListDto,
+    enumName: 'KanbanListDto',
   })
-  public data: Array<InstanceType<typeof KanbanListDto>>;
+  public data: Array<KanbanListDto>;
 
   @ApiProperty({ example: 1 })
   public total: number;
