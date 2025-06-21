@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { MqttModule } from '../mqtt/mqtt.module';
 import { LineController } from './line.controller';
 import { LineService } from './line.service';
 import { ImgurService } from './message/imgur/imgur.service';
@@ -12,6 +13,7 @@ describe('LineController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [MqttModule],
       controllers: [LineController],
       providers: [
         LineService,

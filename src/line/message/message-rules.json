@@ -24,6 +24,22 @@
         "enable": true
     },
     {
+        "keyword": "開始清掃",
+        "type": "vacuum-start",
+        "groupId": [
+            "C951610e4c9fd461a17c516982351283f"
+        ],
+        "enable": true
+    },
+    {
+        "keyword": "開始回充",
+        "type": "vacuum-return",
+        "groupId": [
+            "C951610e4c9fd461a17c516982351283f"
+        ],
+        "enable": true
+    },
+    {
         "regexp": "^sd(?:\\s(.*))?$",
         "type": "stable-diffusion",
         "enable": true

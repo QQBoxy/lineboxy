@@ -2,6 +2,7 @@ import { MessageEvent, messagingApi } from '@line/bot-sdk';
 import { Injectable, Logger } from '@nestjs/common';
 import * as _ from 'lodash';
 
+import { MqttService } from '../../mqtt/mqtt.service';
 import { ImgurService } from './imgur/imgur.service';
 import * as messageRules from './message-rules.json';
 import { RollerShutterService } from './roller-shutter/roller-shutter.service';
@@ -14,6 +15,7 @@ export class MessageService {
     private readonly stableDiffusionService: StableDiffusionService,
     private readonly imgurService: ImgurService,
     private readonly rollerShutterService: RollerShutterService,
+    private readonly mqttService: MqttService,
   ) {}
   async create(client: messagingApi.MessagingApiClient, event: MessageEvent) {
     try {
@@ -120,6 +122,32 @@ export class MessageService {
             {
               type: 'text',
               text: '已送出鐵捲門開啟命令',
+            },
+          ],
+        });
+      }
+      // Vacuum Start
+      if (rule.type === 'vacuum-start') {
+        this.mqttService.publish('vacuum/power/in', 'start');
+        return client.replyMessage({
+          replyToken: event.replyToken,
+          messages: [
+            {
+              type: 'text',
+              text: '已送出掃地機開始清掃命令',
+            },
+          ],
+        });
+      }
+      // Vacuum Return
+      if (rule.type === 'vacuum-return') {
+        this.mqttService.publish('vacuum/power/in', 'return_to_base');
+        return client.replyMessage({
+          replyToken: event.replyToken,
+          messages: [
+            {
+              type: 'text',
+              text: '已送出掃地機開始回充命令',
             },
           ],
         });
