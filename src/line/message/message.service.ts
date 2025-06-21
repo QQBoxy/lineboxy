@@ -153,8 +153,8 @@ export class MessageService {
         });
       }
       // Fan on
-      if (rule.type === 'fan-on') {
-        this.mqttService.publish('fanboxy/power/inTopic', '1');
+      if (rule.type === 'duckfan-on') {
+        this.mqttService.publish('duckfan/power/inTopic', '1');
         return client.replyMessage({
           replyToken: event.replyToken,
           messages: [
@@ -166,8 +166,8 @@ export class MessageService {
         });
       }
       // Fan off
-      if (rule.type === 'fan-off') {
-        this.mqttService.publish('fanboxy/power/inTopic', '0');
+      if (rule.type === 'duckfan-off') {
+        this.mqttService.publish('duckfan/power/inTopic', '0');
         return client.replyMessage({
           replyToken: event.replyToken,
           messages: [

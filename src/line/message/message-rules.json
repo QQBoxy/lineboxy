@@ -40,6 +40,22 @@
         "enable": true
     },
     {
+        "keyword": "打開電扇",
+        "type": "duckfan-on",
+        "groupId": [
+            "C951610e4c9fd461a17c516982351283f"
+        ],
+        "enable": true
+    },
+    {
+        "keyword": "關閉電扇",
+        "type": "duckfan-off",
+        "groupId": [
+            "C951610e4c9fd461a17c516982351283f"
+        ],
+        "enable": true
+    },
+    {
         "regexp": "^sd(?:\\s(.*))?$",
         "type": "stable-diffusion",
         "enable": true
