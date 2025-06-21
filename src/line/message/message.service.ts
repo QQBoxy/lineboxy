@@ -128,7 +128,7 @@ export class MessageService {
       }
       // Vacuum Start
       if (rule.type === 'vacuum-start') {
-        this.mqttService.publish('vacuum/power/in', 'start');
+        this.mqttService.publish('vacuum/power/inTopic', 'start');
         return client.replyMessage({
           replyToken: event.replyToken,
           messages: [
@@ -141,7 +141,7 @@ export class MessageService {
       }
       // Vacuum Return
       if (rule.type === 'vacuum-return') {
-        this.mqttService.publish('vacuum/power/in', 'return_to_base');
+        this.mqttService.publish('vacuum/power/inTopic', 'return_to_base');
         return client.replyMessage({
           replyToken: event.replyToken,
           messages: [
