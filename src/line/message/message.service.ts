@@ -152,6 +152,32 @@ export class MessageService {
           ],
         });
       }
+      // Fan on
+      if (rule.type === 'fan-on') {
+        this.mqttService.publish('fanboxy/power/inTopic', '1');
+        return client.replyMessage({
+          replyToken: event.replyToken,
+          messages: [
+            {
+              type: 'text',
+              text: '已送出電風扇開啟命令',
+            },
+          ],
+        });
+      }
+      // Fan off
+      if (rule.type === 'fan-off') {
+        this.mqttService.publish('fanboxy/power/inTopic', '0');
+        return client.replyMessage({
+          replyToken: event.replyToken,
+          messages: [
+            {
+              type: 'text',
+              text: '已送出電風扇關閉命令',
+            },
+          ],
+        });
+      }
       // Line 貼圖回覆
       if (rule.type === 'sticker') {
         // Probability
