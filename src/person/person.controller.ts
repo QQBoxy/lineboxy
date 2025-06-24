@@ -1,5 +1,6 @@
-import { Controller, Get, Request } from '@nestjs/common';
+import { Controller, Get, Req } from '@nestjs/common';
 import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 
 import { Roles } from '../decorators/roles.decorator';
 import { Role } from '../enums/role.enum';
@@ -17,7 +18,7 @@ export class PersonController {
   @ApiResponse({ status: 200, description: 'Successful', type: UserDto })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  read(@Request() req: Request) {
+  read(@Req() req: Request) {
     return req.session.passport.user;
   }
 }

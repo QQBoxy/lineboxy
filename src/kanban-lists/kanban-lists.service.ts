@@ -5,6 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Request } from 'express';
 import { Between, Repository } from 'typeorm';
 
 import { KanbanBoard } from '../kanban-boards/entities/kanban-board.entity';

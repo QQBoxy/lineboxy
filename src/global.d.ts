@@ -1,26 +1,33 @@
-import { Profile } from '@types/passport-google-oauth20';
-import { Session as ExpressSession } from 'express-session';
+import 'express';
+import 'express-session';
 
-interface Session extends ExpressSession {
-  passport?: {
-    user: {
-      id: number;
-      googleId: string;
-      name: string;
-      email: string;
-      picture: string;
-      role: string;
-    };
-  };
+import { Profile } from '@types/passport-google-oauth20';
+
+declare module 'express' {
+  interface User {
+    accessToken: string;
+    refreshToken: string;
+    profile: Profile;
+  }
+
+  interface Request {
+    user?: User;
+  }
 }
 
-declare global {
-  interface Request extends Express.Request {
-    session: Session;
-    user?: {
-      accessToken: string;
-      refreshToken: string;
-      profile: Profile;
+declare module 'express-session' {
+  interface SessionData {
+    oauth_redirect_uri?: string;
+    oauth_state?: string;
+    passport?: {
+      user: {
+        id: number;
+        googleId: string;
+        name: string;
+        email: string;
+        picture: string;
+        role: string;
+      };
     };
   }
 }

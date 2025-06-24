@@ -1,5 +1,6 @@
-import { Controller, Get, Redirect, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, Redirect, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Request, Response } from 'express';
 
 import { GoogleOAuthGuard } from '../guards/google-oauth.guard';
 import { AuthService } from './auth.service';
@@ -11,9 +12,27 @@ export class AuthController {
 
   @Get()
   @ApiOperation({
+    summary: 'Initialize Google OAuth 2.0 sign-in flow',
+    description:
+      'Stores redirect parameters in cookies and returns a redirect URL (`/auth/google`) to initiate the Google OAuth sign-in process.',
+  })
+  async authorize(
+    @Query('redirect_uri') redirectUri: string,
+    @Query('state') state: string,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    // TODO: session
+    // req.session.oauth_redirect_uri = redirectUri;
+    // req.session.oauth_state = state;
+    return res.redirect('/auth/google');
+  }
+
+  @Get('google')
+  @ApiOperation({
     summary: 'Sign in with Google OAuth 2.0',
     description:
-      'The page redirects to the Google login page for verification. After verification, redirect to callback url (`/auth/google-redirect`) .',
+      'Redirects the user to the Google login page for authentication, then returns to the callback URL (`/auth/google-redirect`) after verification.',
   })
   @UseGuards(GoogleOAuthGuard)
   async googleAuth() {
@@ -50,11 +69,10 @@ export class AuthController {
       ],
     },
   })
-  @Redirect('/', 302)
   @UseGuards(GoogleOAuthGuard)
-  async googleAuthRedirect(@Request() req) {
+  async googleAuthRedirect(@Req() req: Request, @Res() res: Response) {
     const result = await this.authService.validateUser(req);
-    return { url: result.redirect_uri };
+    return res.redirect(result.redirect_uri);
   }
 
   @Get('logout')
@@ -64,7 +82,7 @@ export class AuthController {
   })
   @ApiResponse({ status: 200, description: 'Redirect to `/logout?code=SUCCESSFUL`' })
   @Redirect('/', 302)
-  async googleAuthLogout(@Request() req: Request) {
+  async googleAuthLogout(@Req() req: Request) {
     await new Promise<void>((resolve) => {
       req.logout(resolve);
     });

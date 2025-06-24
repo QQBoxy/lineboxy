@@ -8,10 +8,11 @@ import {
   Patch,
   Post,
   Query,
-  Request,
+  Req,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 
 import { Roles } from '../decorators/roles.decorator';
 import { Role } from '../enums/role.enum';
@@ -38,7 +39,7 @@ export class KanbanCardsController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  create(@Request() req: Request, @Body() createKanbanCardDto: CreateKanbanCardDto) {
+  create(@Req() req: Request, @Body() createKanbanCardDto: CreateKanbanCardDto) {
     return this.kanbanCardsService.create(req, createKanbanCardDto);
   }
 
@@ -51,7 +52,7 @@ export class KanbanCardsController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  findAll(@Request() req: Request, @Query() findKanbanCardDto: FindKanbanCardDto) {
+  findAll(@Req() req: Request, @Query() findKanbanCardDto: FindKanbanCardDto) {
     return this.kanbanCardsService.findAll(req, findKanbanCardDto);
   }
 
@@ -61,7 +62,7 @@ export class KanbanCardsController {
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @ApiResponse({ status: 404, description: 'Not Found' })
   @Roles(Role.Admin, Role.User)
-  findOne(@Request() req: Request, @Param('id') id: string) {
+  findOne(@Req() req: Request, @Param('id') id: string) {
     return this.kanbanCardsService.findOne(req, +id);
   }
 
@@ -73,7 +74,7 @@ export class KanbanCardsController {
   @ApiResponse({ status: 404, description: 'Not Found' })
   @Roles(Role.Admin, Role.User)
   update(
-    @Request() req: Request,
+    @Req() req: Request,
     @Param('id') id: string,
     @Body() updateKanbanCardDto: UpdateKanbanCardDto,
   ) {
@@ -86,7 +87,7 @@ export class KanbanCardsController {
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @ApiResponse({ status: 404, description: 'Not Found' })
   @Roles(Role.Admin, Role.User)
-  remove(@Request() req: Request, @Param('id') id: string) {
+  remove(@Req() req: Request, @Param('id') id: string) {
     return this.kanbanCardsService.remove(req, +id);
   }
 }

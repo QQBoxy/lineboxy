@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Request } from 'express';
 
 import { Role } from '../enums/role.enum';
 import { UsersService } from '../users/users.service';
