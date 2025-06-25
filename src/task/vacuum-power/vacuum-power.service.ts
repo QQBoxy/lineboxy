@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Cron } from '@nestjs/schedule';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 import { MqttService } from '../../mqtt/mqtt.service';
 
@@ -7,7 +7,7 @@ import { MqttService } from '../../mqtt/mqtt.service';
 export class VacuumPowerService {
   constructor(private readonly mqttService: MqttService) {}
 
-  @Cron('0 0 15 * * *')
+  @Cron(CronExpression.EVERY_DAY_AT_3PM)
   handleCron() {
     this.mqttService.publish('vacuum/power/inTopic', 'start');
   }
