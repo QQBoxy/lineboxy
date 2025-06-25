@@ -80,6 +80,60 @@
               }
             }
           ]
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "sm",
+          "margin": "md",
+          "contents": [
+            {
+              "type": "text",
+              "text": "🌙 小夜燈控制",
+              "weight": "bold",
+              "size": "md",
+              "color": "#555555"
+            },
+            {
+              "type": "button",
+              "style": "primary",
+              "action": {
+                "type": "message",
+                "label": "打開小夜燈",
+                "text": "打開小夜燈"
+              }
+            },
+            {
+              "type": "button",
+              "style": "primary",
+              "color": "#FF3B30",
+              "action": {
+                "type": "message",
+                "label": "關閉小夜燈",
+                "text": "關閉小夜燈"
+              }
+            },
+            {
+              "type": "button",
+              "style": "primary",
+              "color": "#C8B900",
+              "action": {
+                "type": "message",
+                "label": "小夜燈最暗",
+                "text": "小夜燈最暗"
+              }
+            },
+            {
+              "type": "button",
+              "style": "primary",
+              "color": "#FFC107",
+              "action": {
+                "type": "message",
+                "label": "小夜燈最亮",
+                "text": "小夜燈最亮"
+              }
+            }
+          ]
         }
       ]
     }
