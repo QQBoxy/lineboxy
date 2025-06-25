@@ -1,0 +1,87 @@
+{
+  "smart-home": {
+    "type": "bubble",
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "spacing": "lg",
+      "contents": [
+        {
+          "type": "text",
+          "text": "請選擇操作指令",
+          "weight": "bold",
+          "size": "lg",
+          "align": "center"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "sm",
+          "margin": "md",
+          "contents": [
+            {
+              "type": "text",
+              "text": "🤖 掃地機器人",
+              "weight": "bold",
+              "size": "md",
+              "color": "#555555"
+            },
+            {
+              "type": "button",
+              "style": "primary",
+              "action": {
+                "type": "message",
+                "label": "開始清掃",
+                "text": "開始清掃"
+              }
+            },
+            {
+              "type": "button",
+              "style": "primary",
+              "color": "#FF3B30",
+              "action": {
+                "type": "message",
+                "label": "開始回充",
+                "text": "開始回充"
+              }
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "sm",
+          "margin": "md",
+          "contents": [
+            {
+              "type": "text",
+              "text": "🦆 鴨鴨電風扇",
+              "weight": "bold",
+              "size": "md",
+              "color": "#555555"
+            },
+            {
+              "type": "button",
+              "style": "primary",
+              "action": {
+                "type": "message",
+                "label": "打開電扇",
+                "text": "打開電扇"
+              }
+            },
+            {
+              "type": "button",
+              "style": "primary",
+              "color": "#FF3B30",
+              "action": {
+                "type": "message",
+                "label": "關閉電扇",
+                "text": "關閉電扇"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

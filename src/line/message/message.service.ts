@@ -178,6 +178,58 @@ export class MessageService {
           ],
         });
       }
+      // Night Light On
+      if (rule.type === 'night-light-on') {
+        this.mqttService.publish('lightboxy/switch/inTopic', '1');
+        return client.replyMessage({
+          replyToken: event.replyToken,
+          messages: [
+            {
+              type: 'text',
+              text: '已送出小夜燈開啟命令',
+            },
+          ],
+        });
+      }
+      // Night Light Off
+      if (rule.type === 'night-light-off') {
+        this.mqttService.publish('lightboxy/switch/inTopic', '0');
+        return client.replyMessage({
+          replyToken: event.replyToken,
+          messages: [
+            {
+              type: 'text',
+              text: '已送出小夜燈關閉命令',
+            },
+          ],
+        });
+      }
+      // Night Light Min
+      if (rule.type === 'night-light-min') {
+        this.mqttService.publish('lightboxy/brightness/inTopic', '1');
+        return client.replyMessage({
+          replyToken: event.replyToken,
+          messages: [
+            {
+              type: 'text',
+              text: '已送出小夜燈最暗命令',
+            },
+          ],
+        });
+      }
+      // Night Light Max
+      if (rule.type === 'night-light-max') {
+        this.mqttService.publish('lightboxy/brightness/inTopic', '255');
+        return client.replyMessage({
+          replyToken: event.replyToken,
+          messages: [
+            {
+              type: 'text',
+              text: '已送出小夜燈最亮命令',
+            },
+          ],
+        });
+      }
       // Line 貼圖回覆
       if (rule.type === 'sticker') {
         // Probability

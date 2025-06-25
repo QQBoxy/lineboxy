@@ -29,6 +29,10 @@
         "groupId": [
             "C951610e4c9fd461a17c516982351283f"
         ],
+        "userId": [
+            "U79a5a8ac14782598e917d4e23c3e2a4b",
+            "U4b5d99bec0e1b9fd80b6dd6bf8b2915a"
+        ],
         "enable": true
     },
     {
@@ -36,6 +40,10 @@
         "type": "vacuum-return",
         "groupId": [
             "C951610e4c9fd461a17c516982351283f"
+        ],
+        "userId": [
+            "U79a5a8ac14782598e917d4e23c3e2a4b",
+            "U4b5d99bec0e1b9fd80b6dd6bf8b2915a"
         ],
         "enable": true
     },
@@ -45,6 +53,10 @@
         "groupId": [
             "C951610e4c9fd461a17c516982351283f"
         ],
+        "userId": [
+            "U79a5a8ac14782598e917d4e23c3e2a4b",
+            "U4b5d99bec0e1b9fd80b6dd6bf8b2915a"
+        ],
         "enable": true
     },
     {
@@ -52,6 +64,58 @@
         "type": "duckfan-off",
         "groupId": [
             "C951610e4c9fd461a17c516982351283f"
+        ],
+        "userId": [
+            "U79a5a8ac14782598e917d4e23c3e2a4b",
+            "U4b5d99bec0e1b9fd80b6dd6bf8b2915a"
+        ],
+        "enable": true
+    },
+    {
+        "keyword": "打開小夜燈",
+        "type": "night-light-on",
+        "groupId": [
+            "C951610e4c9fd461a17c516982351283f"
+        ],
+        "userId": [
+            "U79a5a8ac14782598e917d4e23c3e2a4b",
+            "U4b5d99bec0e1b9fd80b6dd6bf8b2915a"
+        ],
+        "enable": true
+    },
+    {
+        "keyword": "關閉小夜燈",
+        "type": "night-light-off",
+        "groupId": [
+            "C951610e4c9fd461a17c516982351283f"
+        ],
+        "userId": [
+            "U79a5a8ac14782598e917d4e23c3e2a4b",
+            "U4b5d99bec0e1b9fd80b6dd6bf8b2915a"
+        ],
+        "enable": true
+    },
+    {
+        "keyword": "小夜燈最暗",
+        "type": "night-light-min",
+        "groupId": [
+            "C951610e4c9fd461a17c516982351283f"
+        ],
+        "userId": [
+            "U79a5a8ac14782598e917d4e23c3e2a4b",
+            "U4b5d99bec0e1b9fd80b6dd6bf8b2915a"
+        ],
+        "enable": true
+    },
+    {
+        "keyword": "小夜燈最亮",
+        "type": "night-light-max",
+        "groupId": [
+            "C951610e4c9fd461a17c516982351283f"
+        ],
+        "userId": [
+            "U79a5a8ac14782598e917d4e23c3e2a4b",
+            "U4b5d99bec0e1b9fd80b6dd6bf8b2915a"
         ],
         "enable": true
     },
