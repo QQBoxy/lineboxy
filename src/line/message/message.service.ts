@@ -3,6 +3,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import * as _ from 'lodash';
 
 import { MqttService } from '../../mqtt/mqtt.service';
+import * as flexRules from './flex-rules.json';
 import { ImgurService } from './imgur/imgur.service';
 import * as messageRules from './message-rules.json';
 import { RollerShutterService } from './roller-shutter/roller-shutter.service';
@@ -122,6 +123,19 @@ export class MessageService {
             {
               type: 'text',
               text: '已送出鐵捲門開啟命令',
+            },
+          ],
+        });
+      }
+      // Smart Home
+      if (rule.type === 'smart-home') {
+        return client.replyMessage({
+          replyToken: event.replyToken,
+          messages: [
+            {
+              type: 'flex',
+              altText: 'Smart Home',
+              contents: JSON.parse(JSON.stringify(flexRules['smart-home'])),
             },
           ],
         });
