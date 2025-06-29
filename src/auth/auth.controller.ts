@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 
 import { GoogleOAuthGuard } from '../guards/google-oauth.guard';
 import { AuthService } from './auth.service';
+import { CreateAuthDto } from './dto/create-auth.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -17,14 +18,13 @@ export class AuthController {
       'Stores redirect parameters in cookies and returns a redirect URL (`/auth/google`) to initiate the Google OAuth sign-in process.',
   })
   async authorize(
-    @Query('redirect_uri') redirectUri: string,
-    @Query('state') state: string,
+    @Query() createAuthDto: CreateAuthDto,
     @Req() req: Request,
     @Res() res: Response,
   ) {
-    // TODO: session
-    // req.session.oauth_redirect_uri = redirectUri;
-    // req.session.oauth_state = state;
+    req.session.oauth = {
+      redirect_uri: createAuthDto.redirect_uri,
+    };
     return res.redirect('/auth/google');
   }
 
@@ -71,8 +71,9 @@ export class AuthController {
   })
   @UseGuards(GoogleOAuthGuard)
   async googleAuthRedirect(@Req() req: Request, @Res() res: Response) {
-    const result = await this.authService.validateUser(req);
-    return res.redirect(result.redirect_uri);
+    const { redirect_uri } = await this.authService.validateUser(req);
+    delete req.session.oauth;
+    return res.redirect(redirect_uri);
   }
 
   @Get('logout')

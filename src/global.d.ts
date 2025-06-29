@@ -3,22 +3,22 @@ import 'express-session';
 
 import { Profile } from '@types/passport-google-oauth20';
 
-declare module 'express' {
-  interface User {
+export declare module 'express' {
+  interface GoogleOAuthUser {
     accessToken: string;
     refreshToken: string;
     profile: Profile;
   }
-
   interface Request {
-    user?: User;
+    user?: GoogleOAuthUser;
   }
 }
 
 declare module 'express-session' {
   interface SessionData {
-    oauth_redirect_uri?: string;
-    oauth_state?: string;
+    oauth?: {
+      redirect_uri: string;
+    };
     passport?: {
       user: {
         id: number;

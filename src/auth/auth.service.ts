@@ -4,21 +4,13 @@ import { Request } from 'express';
 import { Role } from '../enums/role.enum';
 import { UsersService } from '../users/users.service';
 
-interface Redirect {
-  message: string;
-  redirect_uri: string;
-}
-
 @Injectable()
 export class AuthService {
   constructor(private readonly usersService: UsersService) {}
 
-  async validateUser(req: Request): Promise<Redirect> {
+  async validateUser(req: Request) {
     if (!req.user) {
-      return {
-        message: 'No user from google',
-        redirect_uri: '/login?code=NO_USER_FROM_GOOGLE',
-      };
+      return { redirect_uri: '/login?code=NO_USER_FROM_GOOGLE' };
     }
     // Google OAuth 2.0
     const {
@@ -30,10 +22,7 @@ export class AuthService {
     } = req.user.profile._json;
     // 驗證信箱
     if (!email_verified) {
-      return {
-        message: 'Email Address is Not Verified',
-        redirect_uri: '/login?code=EMAIL_ADDRESS_IS_NOT_VERIFIED',
-      };
+      return { redirect_uri: '/login?code=EMAIL_ADDRESS_IS_NOT_VERIFIED' };
     }
     // 取得帳號資訊
     let user = await this.usersService.findOneByGoogleId(googleId);
@@ -47,12 +36,10 @@ export class AuthService {
         role: Role.User,
       });
     }
-    // 寫入 Session
     req.session.passport = { user };
-    // 響應
+    const { redirect_uri } = req.session.oauth;
     return {
-      message: 'User information from google',
-      redirect_uri: '/login?code=SUCCESSFUL',
+      redirect_uri: redirect_uri || '/login?code=SUCCESSFUL',
     };
   }
 }
