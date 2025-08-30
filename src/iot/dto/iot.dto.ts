@@ -4,7 +4,7 @@ import { IsNotEmpty, IsString } from 'class-validator';
 export class IotDto {
   @IsString()
   @IsNotEmpty()
-  @ApiProperty({ description: 'Topic', example: 'duckfan%2Fpower%2FinTopic' })
+  @ApiProperty({ description: 'Topic', example: 'duckfan/power/inTopic' })
   topic: string;
 
   @IsString()

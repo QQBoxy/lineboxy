@@ -6,20 +6,30 @@ import { UpdateIotDto } from './dto/update-iot.dto';
 @Injectable()
 export class IotService {
   private readonly logger = new Logger(IotService.name);
+  private readonly inTopic = [
+    'vacuum/power/inTopic',
+    'duckfan/power/inTopic',
+    'lightboxy/switch/inTopic',
+    'lightboxy/brightness/inTopic',
+  ];
+  private readonly outTopic = [
+    'vacuum/power/outTopic',
+    'duckfan/power/outTopic',
+    'lightboxy/switch/outTopic',
+    'lightboxy/brightness/outTopic',
+  ];
   constructor(private readonly mqttService: MqttService) {}
 
-  findOne(req: Request, topic: string) {
-    return `${topic}`;
+  async findOne(req: Request, topic: string) {
+    if (!this.outTopic.includes(topic)) {
+      throw new BadRequestException();
+    }
+    const message = await this.mqttService.getState(topic);
+    return { topic, message };
   }
 
   update(req: Request, topic: string, updateIotDto: UpdateIotDto) {
-    const topics = [
-      'vacuum/power/inTopic',
-      'duckfan/power/inTopic',
-      'lightboxy/switch/inTopic',
-      'lightboxy/brightness/inTopic',
-    ];
-    if (!topics.includes(topic)) {
+    if (!this.inTopic.includes(topic)) {
       throw new BadRequestException();
     }
     const message = updateIotDto.message;
