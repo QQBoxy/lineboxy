@@ -1,5 +1,6 @@
 import { RouterModule } from '@nestjs/core';
 
+import { IotModule } from './iot/iot.module';
 import { KanbanBoardsModule } from './kanban-boards/kanban-boards.module';
 import { KanbanCardsModule } from './kanban-cards/kanban-cards.module';
 import { KanbanListsModule } from './kanban-lists/kanban-lists.module';
@@ -29,6 +30,10 @@ export const Routes = RouterModule.register([
       {
         path: 'kanban-cards',
         module: KanbanCardsModule,
+      },
+      {
+        path: 'iot',
+        module: IotModule,
       },
     ],
   },

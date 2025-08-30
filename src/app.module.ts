@@ -9,6 +9,7 @@ import { DataSource } from 'typeorm';
 
 import { AuthModule } from './auth/auth.module';
 import { RolesGuard } from './guards/roles.guard';
+import { IotModule } from './iot/iot.module';
 import { KanbanBoardsModule } from './kanban-boards/kanban-boards.module';
 import { KanbanCardsModule } from './kanban-cards/kanban-cards.module';
 import { KanbanListsModule } from './kanban-lists/kanban-lists.module';
@@ -43,6 +44,7 @@ import { UsersModule } from './users/users.module';
     KanbanListsModule,
     KanbanCardsModule,
     MqttModule,
+    IotModule,
   ],
   controllers: [],
   providers: [
