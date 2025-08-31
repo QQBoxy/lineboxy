@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Request } from 'express';
 
 import { Role } from '../enums/role.enum';
@@ -6,6 +6,7 @@ import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
   constructor(private readonly usersService: UsersService) {}
 
   async validateUser(req: Request) {
@@ -37,9 +38,10 @@ export class AuthService {
       });
     }
     req.session.passport = { user };
-    const { redirect_uri } = req.session.oauth;
+    const redirect_uri = req.session.oauth?.redirect_uri ?? '/login?code=SUCCESSFUL';
+    this.logger.log(`redirect_uri: ${redirect_uri}`);
     return {
-      redirect_uri: redirect_uri || '/login?code=SUCCESSFUL',
+      redirect_uri,
     };
   }
 }

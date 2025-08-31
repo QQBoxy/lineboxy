@@ -27,6 +27,7 @@ import { UsersModule } from './users/users.module';
     ScheduleModule.forRoot(),
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..', 'public'),
+      exclude: ['/api', '/auth'],
     }),
     TypeOrmModule.forRoot({
       type: 'sqlite',
