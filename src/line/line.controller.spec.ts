@@ -21,6 +21,12 @@ describe('LineController', () => {
         StableDiffusionService,
         ImgurService,
         RollerShutterService,
+        {
+          provide: 'BullQueue_line-messages',
+          useValue: {
+            add: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
