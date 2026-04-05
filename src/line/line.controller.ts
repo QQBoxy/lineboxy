@@ -1,4 +1,4 @@
-import { WebhookEvent } from '@line/bot-sdk';
+import { webhook } from '@line/bot-sdk';
 import { Body, Controller, Post, Res } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
@@ -12,7 +12,7 @@ export class LineController {
 
   @Post('webhook')
   @ApiOperation({ summary: 'Line Webhook URL' })
-  async create(@Body('events') events: WebhookEvent[], @Res() res: Response) {
+  async create(@Body('events') events: webhook.Event[], @Res() res: Response) {
     res.json(await this.lineService.create(events));
   }
 }

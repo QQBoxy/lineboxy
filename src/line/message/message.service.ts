@@ -1,4 +1,4 @@
-import { MessageEvent, messagingApi } from '@line/bot-sdk';
+import { messagingApi, webhook } from '@line/bot-sdk';
 import { Injectable, Logger } from '@nestjs/common';
 import * as _ from 'lodash';
 
@@ -18,7 +18,7 @@ export class MessageService {
     private readonly rollerShutterService: RollerShutterService,
     private readonly mqttService: MqttService,
   ) {}
-  async create(client: messagingApi.MessagingApiClient, event: MessageEvent) {
+  async create(client: messagingApi.MessagingApiClient, event: webhook.MessageEvent) {
     try {
       // 整理設定檔訊息規則
       const rules = messageRules.map((rule) => ({
@@ -310,12 +310,7 @@ export class MessageService {
             ],
           });
         } catch (e) {
-          throw {
-            ...e,
-            error: {
-              message: 'JSON Format Error.',
-            },
-          };
+          throw new Error('JSON Format Error.');
         }
       }
     } catch (e) {
@@ -325,7 +320,7 @@ export class MessageService {
         messages: [
           {
             type: 'text',
-            text: e?.error?.message || 'Server Error.',
+            text: e instanceof Error ? e.message : 'Server Error.',
           },
         ],
       });
