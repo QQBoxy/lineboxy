@@ -11,7 +11,7 @@ export class RollerShutterService {
       });
       client.publish('company/door/inTopic', '1');
       client.publish('company/door/inTopic', '0');
-    } catch (e) {
+    } catch {
       return '';
     }
   }

@@ -25,7 +25,7 @@ export class KanbanListsService {
   async create(req: Request, createKanbanListDto: CreateKanbanListDto) {
     // Check board exists
     const board = await this.kanbanBoardRepository.findOne({
-      relations: ['owners'],
+      relations: { owners: true },
       where: {
         id: createKanbanListDto.boardId,
         owners: {
@@ -38,7 +38,7 @@ export class KanbanListsService {
     }
     // Get order of last list
     const list = await this.kanbanListRepository.findOne({
-      relations: ['board'],
+      relations: { board: true },
       where: {
         board: {
           id: board.id,
@@ -61,7 +61,7 @@ export class KanbanListsService {
   async findAll(req: Request, findKanbanListDto: FindKanbanListDto) {
     // Check board exists
     const board = await this.kanbanBoardRepository.findOne({
-      relations: ['owners'],
+      relations: { owners: true },
       where: {
         id: findKanbanListDto.boardId,
         owners: {
@@ -77,7 +77,7 @@ export class KanbanListsService {
     }
     // Get all lists
     const [data, total] = await this.kanbanListRepository.findAndCount({
-      relations: ['board'],
+      relations: { board: true },
       where: {
         board: {
           id: board.id,
@@ -98,7 +98,7 @@ export class KanbanListsService {
   async findOne(req: Request, id: number) {
     // Get list
     const list = await this.kanbanListRepository.findOne({
-      relations: ['board'],
+      relations: { board: true },
       where: {
         id: id,
         board: {
@@ -117,7 +117,7 @@ export class KanbanListsService {
   async update(req: Request, id: number, updateKanbanListsDto: UpdateKanbanListsDto) {
     // Get list
     const list = await this.kanbanListRepository.findOne({
-      relations: ['board'],
+      relations: { board: true },
       where: {
         id: id,
         board: {
@@ -142,7 +142,7 @@ export class KanbanListsService {
     }
     // Get target lists
     const lists = await this.kanbanListRepository.find({
-      relations: ['board'],
+      relations: { board: true },
       where: {
         board: {
           id: list.board.id,
@@ -181,7 +181,7 @@ export class KanbanListsService {
   async remove(req: Request, id: number) {
     // Get list
     const list = await this.kanbanListRepository.findOne({
-      relations: ['board'],
+      relations: { board: true },
       where: {
         id: id,
         board: {

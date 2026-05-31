@@ -32,7 +32,7 @@ export class KanbanBoardsService {
 
   async findAll(req: Request, findKanbanBoardDto: FindKanbanBoardDto) {
     const [data, total] = await this.kanbanBoardRepository.findAndCount({
-      relations: ['owners'],
+      relations: { owners: true },
       where: {
         owners: {
           id: req.session.passport.user.id,
@@ -52,7 +52,7 @@ export class KanbanBoardsService {
 
   async findOne(req: Request, id: number) {
     const kanbanBoard = await this.kanbanBoardRepository.findOne({
-      relations: ['owners'],
+      relations: { owners: true },
       where: {
         id: id,
         owners: {
@@ -69,7 +69,7 @@ export class KanbanBoardsService {
   async update(req: Request, id: number, updateKanbanBoardDto: UpdateKanbanBoardDto) {
     // Check board exists
     const kanbanBoard = await this.kanbanBoardRepository.findOne({
-      relations: ['owners'],
+      relations: { owners: true },
       where: {
         id: id,
         owners: {
@@ -96,7 +96,7 @@ export class KanbanBoardsService {
   async remove(req: Request, id: number) {
     // Check board exists
     const kanbanBoard = await this.kanbanBoardRepository.findOne({
-      relations: ['owners'],
+      relations: { owners: true },
       where: {
         id: id,
         owners: {

@@ -25,7 +25,7 @@ export class StableDiffusionService {
         },
       });
       return res?.data?.images[0] || '';
-    } catch (e) {
+    } catch {
       return '';
     }
   }

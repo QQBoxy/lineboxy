@@ -25,7 +25,7 @@ export class KanbanCardsService {
   async create(req: Request, createKanbanCardDto: CreateKanbanCardDto) {
     // Check list exists
     const list = await this.kanbanListRepository.findOne({
-      relations: ['board'],
+      relations: { board: true },
       where: {
         id: createKanbanCardDto.listId,
         board: {
@@ -40,7 +40,7 @@ export class KanbanCardsService {
     }
     // Get order of last card
     const card = await this.kanbanCardRepository.findOne({
-      relations: ['list'],
+      relations: { list: true },
       where: {
         list: {
           id: list.id,
@@ -64,7 +64,7 @@ export class KanbanCardsService {
   async findAll(req: Request, findKanbanCardDto: FindKanbanCardDto) {
     // Get all cards
     const [data, total] = await this.kanbanCardRepository.findAndCount({
-      relations: ['list'],
+      relations: { list: true },
       where: {
         list: {
           id: findKanbanCardDto.listId,
@@ -90,7 +90,7 @@ export class KanbanCardsService {
   async findOne(req: Request, id: number) {
     // Get Card
     const card = await this.kanbanCardRepository.findOne({
-      relations: ['list'],
+      relations: { list: true },
       where: {
         id: id,
         list: {
@@ -111,7 +111,7 @@ export class KanbanCardsService {
   async update(req: Request, id: number, updateKanbanCardDto: UpdateKanbanCardDto) {
     // Get Card
     const card = await this.kanbanCardRepository.findOne({
-      relations: ['list'],
+      relations: { list: true },
       where: {
         id: id,
         list: {
@@ -138,7 +138,7 @@ export class KanbanCardsService {
     }
     // Get target cards
     const cards = await this.kanbanCardRepository.find({
-      relations: ['list'],
+      relations: { list: true },
       where: {
         list: {
           id: card.list.id,
@@ -180,7 +180,7 @@ export class KanbanCardsService {
   async remove(req: Request, id: number) {
     // Get card
     const card = await this.kanbanCardRepository.findOne({
-      relations: ['list'],
+      relations: { list: true },
       where: {
         id: id,
         list: {

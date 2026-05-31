@@ -1,4 +1,4 @@
-import { MessageEvent, messagingApi } from '@line/bot-sdk';
+import { messagingApi, webhook } from '@line/bot-sdk';
 import { Injectable, Logger } from '@nestjs/common';
 import * as _ from 'lodash';
 
@@ -18,7 +18,7 @@ export class MessageService {
     private readonly rollerShutterService: RollerShutterService,
     private readonly mqttService: MqttService,
   ) {}
-  async create(client: messagingApi.MessagingApiClient, event: MessageEvent) {
+  async create(client: messagingApi.MessagingApiClient, event: webhook.MessageEvent) {
     try {
       // 整理設定檔訊息規則
       const rules = messageRules.map((rule) => ({
@@ -309,7 +309,7 @@ export class MessageService {
               },
             ],
           });
-        } catch (e) {
+        } catch (e: any) {
           throw {
             ...e,
             error: {
@@ -318,7 +318,7 @@ export class MessageService {
           };
         }
       }
-    } catch (e) {
+    } catch (e: any) {
       console.log(e);
       return client.replyMessage({
         replyToken: event.replyToken,

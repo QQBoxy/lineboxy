@@ -30,7 +30,7 @@ import { UsersModule } from './users/users.module';
       exclude: ['/api', '/auth'],
     }),
     TypeOrmModule.forRoot({
-      type: 'sqlite',
+      type: 'better-sqlite3',
       database: path.join(__dirname, '..', 'data', 'db.sqlite'),
       autoLoadEntities: true,
       synchronize: true,

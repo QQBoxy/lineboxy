@@ -16,7 +16,7 @@ export class ImgurService {
         },
       });
       return res?.data?.data?.link || '';
-    } catch (e) {
+    } catch {
       return '';
     }
   }
