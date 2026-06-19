@@ -3,9 +3,10 @@ import { Injectable, Logger } from '@nestjs/common';
 import * as _ from 'lodash';
 
 import { MqttService } from '../../mqtt/mqtt.service';
+import { ExpenseService } from './expense/expense.service';
 import * as flexRules from './flex-rules.json';
 import { ImgurService } from './imgur/imgur.service';
-import * as messageRules from './message-rules.json';
+import { messageRules } from './message-rules';
 import { RollerShutterService } from './roller-shutter/roller-shutter.service';
 import { StableDiffusionService } from './stable-diffusion/stable-diffusion.service';
 
@@ -17,6 +18,7 @@ export class MessageService {
     private readonly imgurService: ImgurService,
     private readonly rollerShutterService: RollerShutterService,
     private readonly mqttService: MqttService,
+    private readonly expenseService: ExpenseService,
   ) {}
   async create(client: messagingApi.MessagingApiClient, event: webhook.MessageEvent) {
     try {
@@ -110,6 +112,19 @@ export class MessageService {
               type: 'image',
               originalContentUrl: url,
               previewImageUrl: url,
+            },
+          ],
+        });
+      }
+      // Expense
+      if (rule.type === 'expense') {
+        const expense = await this.expenseService.create(text, userId);
+        return client.replyMessage({
+          replyToken: event.replyToken,
+          messages: [
+            {
+              type: 'text',
+              text: `已記帳：${expense.name} $${expense.price}（${expense.user.name}）`,
             },
           ],
         });

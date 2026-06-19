@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 import { Role } from '../../enums/role.enum';
 
@@ -33,4 +33,12 @@ export class UserDto {
     example: Role.User,
   })
   role: string;
+
+  @IsArray()
+  @IsString({ each: true })
+  @ApiProperty({
+    description: 'Line User IDs',
+    example: ['U79a5a8ac14782598e917d4e23c3e2a4b'],
+  })
+  lineUserIds: string[];
 }

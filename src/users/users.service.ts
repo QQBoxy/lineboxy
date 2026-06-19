@@ -21,6 +21,7 @@ export class UsersService {
     user.email = createUserDto?.email ?? '';
     user.picture = createUserDto?.picture ?? '';
     user.role = createUserDto?.role ?? '';
+    user.lineUserIds = createUserDto?.lineUserIds ?? [];
     return this.usersRepository.save(user);
   }
 
@@ -46,9 +47,19 @@ export class UsersService {
     return this.usersRepository.findOneBy({ googleId: googleId });
   }
 
+  async findOneByLineUserId(lineUserId: string) {
+    const users = await this.usersRepository.find();
+    return users.find((user) => user.lineUserIds?.includes(lineUserId)) ?? null;
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto) {
     const user = new User();
-    user.picture = updateUserDto?.picture ?? '';
+    if (updateUserDto.picture !== undefined) {
+      user.picture = updateUserDto.picture;
+    }
+    if (updateUserDto.lineUserIds !== undefined) {
+      user.lineUserIds = updateUserDto.lineUserIds;
+    }
     user.updatedAt = new Date();
     await this.usersRepository.update({ id: id }, user);
     return this.usersRepository.findOneBy({ id: id });

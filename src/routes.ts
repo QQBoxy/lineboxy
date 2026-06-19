@@ -5,6 +5,7 @@ import { KanbanBoardsModule } from './kanban-boards/kanban-boards.module';
 import { KanbanCardsModule } from './kanban-cards/kanban-cards.module';
 import { KanbanListsModule } from './kanban-lists/kanban-lists.module';
 import { PersonModule } from './person/person.module';
+import { TransactionModule } from './transaction/transaction.module';
 import { UsersModule } from './users/users.module';
 
 export const Routes = RouterModule.register([
@@ -34,6 +35,10 @@ export const Routes = RouterModule.register([
       {
         path: 'iot',
         module: IotModule,
+      },
+      {
+        path: 'transaction',
+        module: TransactionModule,
       },
     ],
   },

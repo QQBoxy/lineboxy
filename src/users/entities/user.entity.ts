@@ -20,6 +20,9 @@ export class User {
   @Column()
   role: string;
 
+  @Column({ type: 'simple-json', default: '[]' })
+  lineUserIds: string[];
+
   @Column({ default: true })
   isActive: boolean;
 

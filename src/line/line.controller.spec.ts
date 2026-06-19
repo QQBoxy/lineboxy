@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { MqttModule } from '../mqtt/mqtt.module';
 import { LineController } from './line.controller';
 import { LineService } from './line.service';
+import { ExpenseService } from './message/expense/expense.service';
 import { ImgurService } from './message/imgur/imgur.service';
 import { MessageService } from './message/message.service';
 import { RollerShutterService } from './message/roller-shutter/roller-shutter.service';
@@ -21,6 +22,10 @@ describe('LineController', () => {
         StableDiffusionService,
         ImgurService,
         RollerShutterService,
+        {
+          provide: ExpenseService,
+          useValue: {},
+        },
       ],
     }).compile();
 

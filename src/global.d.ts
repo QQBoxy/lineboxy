@@ -27,6 +27,7 @@ declare module 'express-session' {
         email: string;
         picture: string;
         role: string;
+        lineUserIds?: string[];
       };
     };
   }

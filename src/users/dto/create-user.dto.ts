@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -17,4 +17,9 @@ export class CreateUserDto {
 
   @IsString()
   role: string;
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  lineUserIds?: string[];
 }

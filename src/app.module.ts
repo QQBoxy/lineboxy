@@ -19,6 +19,7 @@ import { PersonModule } from './person/person.module';
 import { Routes } from './routes';
 import { SessionSerializer } from './serializer/session.serializer';
 import { TaskModule } from './task/task.module';
+import { TransactionModule } from './transaction/transaction.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -44,6 +45,7 @@ import { UsersModule } from './users/users.module';
     KanbanBoardsModule,
     KanbanListsModule,
     KanbanCardsModule,
+    TransactionModule,
     MqttModule,
     IotModule,
   ],
