@@ -27,7 +27,7 @@ export class IotController {
   @ApiOperation({ summary: 'Get IoT Device State by Topic' })
   @ApiResponse({ status: 200, description: 'Successful', type: IotDto })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
-  @Roles(Role.Admin, Role.User)
+  @Roles(Role.Admin)
   findOne(@Req() req: Request, @Param('topic') topic: string) {
     return this.iotService.findOne(req, topic);
   }
@@ -36,7 +36,7 @@ export class IotController {
   @ApiOperation({ summary: 'Update IoT Device State by Topic' })
   @ApiResponse({ status: 200, description: 'Successful', type: IotDto })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
-  @Roles(Role.Admin, Role.User)
+  @Roles(Role.Admin)
   update(
     @Req() req: Request,
     @Param('topic') topic: string,
