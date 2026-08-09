@@ -12,10 +12,10 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Request } from 'express';
 
 import { Roles } from '../decorators/roles.decorator';
 import { Role } from '../enums/role.enum';
+import { AuthenticatedRequest } from '../types/request';
 import { CreateKanbanListDto } from './dto/create-kanban-list.dto';
 import { FindKanbanListDto } from './dto/find-kanban-list.dto';
 import { KanbanListDto } from './dto/kanban-list.dto';
@@ -39,7 +39,10 @@ export class KanbanListsController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  create(@Req() req: Request, @Body() createKanbanListDto: CreateKanbanListDto) {
+  create(
+    @Req() req: AuthenticatedRequest,
+    @Body() createKanbanListDto: CreateKanbanListDto,
+  ) {
     return this.kanbanListsService.create(req, createKanbanListDto);
   }
 
@@ -52,7 +55,10 @@ export class KanbanListsController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  findAll(@Req() req: Request, @Query() findKanbanListDto: FindKanbanListDto) {
+  findAll(
+    @Req() req: AuthenticatedRequest,
+    @Query() findKanbanListDto: FindKanbanListDto,
+  ) {
     return this.kanbanListsService.findAll(req, findKanbanListDto);
   }
 
@@ -62,7 +68,7 @@ export class KanbanListsController {
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @ApiResponse({ status: 404, description: 'Not Found' })
   @Roles(Role.Admin, Role.User)
-  findOne(@Req() req: Request, @Param('id') id: string) {
+  findOne(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
     return this.kanbanListsService.findOne(req, +id);
   }
 
@@ -74,7 +80,7 @@ export class KanbanListsController {
   @ApiResponse({ status: 404, description: 'Not Found' })
   @Roles(Role.Admin, Role.User)
   update(
-    @Req() req: Request,
+    @Req() req: AuthenticatedRequest,
     @Param('id') id: string,
     @Body() updateKanbanListsDto: UpdateKanbanListsDto,
   ) {
@@ -87,7 +93,7 @@ export class KanbanListsController {
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @ApiResponse({ status: 404, description: 'Not Found' })
   @Roles(Role.Admin, Role.User)
-  remove(@Req() req: Request, @Param('id') id: string) {
+  remove(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
     return this.kanbanListsService.remove(req, +id);
   }
 }

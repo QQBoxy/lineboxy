@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Request } from 'express';
 
 import { Role } from '../enums/role.enum';
+import { GoogleOAuthRequest } from '../types/request';
 import { UsersService } from '../users/users.service';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class AuthService {
   private readonly logger = new Logger(AuthService.name);
   constructor(private readonly usersService: UsersService) {}
 
-  async validateUser(req: Request) {
+  async validateUser(req: GoogleOAuthRequest) {
     if (!req.user) {
       return { redirect_uri: '/login?code=NO_USER_FROM_GOOGLE' };
     }

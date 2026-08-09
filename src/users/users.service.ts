@@ -60,6 +60,9 @@ export class UsersService {
     if (updateUserDto.lineUserIds !== undefined) {
       user.lineUserIds = updateUserDto.lineUserIds;
     }
+    if (updateUserDto.role !== undefined) {
+      user.role = updateUserDto.role;
+    }
     user.updatedAt = new Date();
     await this.usersRepository.update({ id: id }, user);
     return this.usersRepository.findOneBy({ id: id });

@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
+import { Role } from '../enums/role.enum';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 
@@ -93,6 +94,25 @@ describe('UsersService', () => {
       expect.objectContaining({
         lineUserIds: [' line-user-id ', 'line-user-id'],
       }),
+    );
+  });
+
+  it('should update a user role', async () => {
+    repository.findOneBy.mockResolvedValue({
+      id: 1,
+      name: 'qqboxy',
+      role: Role.Admin,
+    });
+
+    await expect(service.update(1, { role: Role.Admin })).resolves.toEqual({
+      id: 1,
+      name: 'qqboxy',
+      role: Role.Admin,
+    });
+
+    expect(repository.update).toHaveBeenCalledWith(
+      { id: 1 },
+      expect.objectContaining({ role: Role.Admin }),
     );
   });
 });

@@ -14,13 +14,9 @@ describe('TransactionController', () => {
     getTotal: jest.Mock;
   };
   const req = {
-    session: {
-      passport: {
-        user: {
-          id: 1,
-          name: 'qqboxy',
-        },
-      },
+    user: {
+      id: 1,
+      name: 'qqboxy',
     },
   } as any;
 

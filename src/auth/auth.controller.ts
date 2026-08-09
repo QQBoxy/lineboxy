@@ -3,6 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 
 import { GoogleOAuthGuard } from '../guards/google-oauth.guard';
+import { GoogleOAuthRequest } from '../types/request';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 
@@ -70,7 +71,7 @@ export class AuthController {
     },
   })
   @UseGuards(GoogleOAuthGuard)
-  async googleAuthRedirect(@Req() req: Request, @Res() res: Response) {
+  async googleAuthRedirect(@Req() req: GoogleOAuthRequest, @Res() res: Response) {
     const { redirect_uri } = await this.authService.validateUser(req);
     delete req.session.oauth;
     return res.redirect(redirect_uri);

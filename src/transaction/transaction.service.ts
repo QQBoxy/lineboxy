@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Request } from 'express';
-import { Between, Repository } from 'typeorm';
+import { Between, FindOptionsWhere, Repository } from 'typeorm';
 
+import { Role } from '../enums/role.enum';
+import { AuthenticatedRequest } from '../types/request';
 import { User } from '../users/entities/user.entity';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { FindTransactionDto } from './dto/find-transaction.dto';
@@ -20,16 +21,26 @@ export class TransactionService {
     private transactionRepository: Repository<Transaction>,
   ) {}
 
-  async getTotal(req: Request, year?: number) {
+  private getReadableWhere(req: AuthenticatedRequest): FindOptionsWhere<Transaction> {
+    if (req.user.role === Role.Admin) {
+      return {};
+    }
+
+    return {
+      user: {
+        id: req.user.id,
+      },
+    };
+  }
+
+  async getTotal(req: AuthenticatedRequest, year?: number) {
     const targetYear = year ?? new Date().getFullYear();
     const startDate = new Date(targetYear, 0, 1, 0, 0, 0, 0);
     const endDate = new Date(targetYear, 11, 31, 23, 59, 59, 999);
 
     const transactions = await this.transactionRepository.find({
       where: {
-        user: {
-          id: req.session.passport.user.id,
-        },
+        ...this.getReadableWhere(req),
         createdAt: Between(startDate, endDate),
       },
       select: {
@@ -60,13 +71,9 @@ export class TransactionService {
     return this.transactionRepository.save(transaction);
   }
 
-  async findAll(req: Request, findTransactionDto: FindTransactionDto) {
+  async findAll(req: AuthenticatedRequest, findTransactionDto: FindTransactionDto) {
     const [data, total] = await this.transactionRepository.findAndCount({
-      where: {
-        user: {
-          id: req.session.passport.user.id,
-        },
-      },
+      where: this.getReadableWhere(req),
       relations: { user: true },
       order: {
         createdAt: 'DESC',
@@ -80,13 +87,11 @@ export class TransactionService {
     };
   }
 
-  async findOne(req: Request, id: number) {
+  async findOne(req: AuthenticatedRequest, id: number) {
     const transaction = await this.transactionRepository.findOne({
       where: {
         id,
-        user: {
-          id: req.session.passport.user.id,
-        },
+        ...this.getReadableWhere(req),
       },
       relations: { user: true },
     });
@@ -96,7 +101,11 @@ export class TransactionService {
     return transaction;
   }
 
-  async update(req: Request, id: number, updateTransactionDto: UpdateTransactionDto) {
+  async update(
+    req: AuthenticatedRequest,
+    id: number,
+    updateTransactionDto: UpdateTransactionDto,
+  ) {
     const transaction = await this.findOne(req, id);
     const newTransaction = new Transaction();
 
@@ -112,7 +121,7 @@ export class TransactionService {
     return this.findOne(req, id);
   }
 
-  async remove(req: Request, id: number) {
+  async remove(req: AuthenticatedRequest, id: number) {
     const transaction = await this.findOne(req, id);
     return this.transactionRepository.delete(transaction.id);
   }

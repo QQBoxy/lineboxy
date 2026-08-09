@@ -1,10 +1,10 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
 
 import { ROLES_KEY } from '../decorators/roles.decorator';
 import { Role } from '../enums/role.enum';
+import { AuthenticatedRequest } from '../types/request';
 
 @Injectable()
 export class RolesGuard extends AuthGuard('google') implements CanActivate {
@@ -20,9 +20,13 @@ export class RolesGuard extends AuthGuard('google') implements CanActivate {
     if (!requiredRoles) {
       return true;
     }
-    const req: Request = context.switchToHttp().getRequest();
-    const session = req.session;
+    const req = context.switchToHttp().getRequest<AuthenticatedRequest>();
+    const user = req.user;
 
-    return requiredRoles.some((role) => session.passport?.user?.role === role);
+    if (!user) {
+      return false;
+    }
+
+    return requiredRoles.some((role) => user.role === role);
   }
 }

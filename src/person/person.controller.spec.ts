@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { Role } from '../enums/role.enum';
 import { UsersService } from '../users/users.service';
 import { PersonController } from './person.controller';
 
@@ -29,20 +30,25 @@ describe('PersonController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('should update personal line user IDs and session user', async () => {
+  it('should read the deserialized request user', () => {
+    const user = { id: 1, name: 'qqboxy', role: Role.Admin };
+    const req = { user } as any;
+
+    expect(controller.read(req)).toBe(user);
+  });
+
+  it('should update personal line user IDs and preserve the effective role', async () => {
     const user = {
       id: 1,
       name: 'qqboxy',
       lineUserIds: ['line-user-id'],
+      role: Role.User,
     };
     const req = {
-      session: {
-        passport: {
-          user: {
-            id: 1,
-            name: 'qqboxy',
-          },
-        },
+      user: {
+        id: 1,
+        name: 'qqboxy',
+        role: Role.Admin,
       },
     } as any;
     usersService.update.mockResolvedValue(user);
@@ -54,6 +60,6 @@ describe('PersonController', () => {
     expect(usersService.update).toHaveBeenCalledWith(1, {
       lineUserIds: ['line-user-id'],
     });
-    expect(req.session.passport.user).toEqual(user);
+    expect(user.role).toBe(Role.Admin);
   });
 });

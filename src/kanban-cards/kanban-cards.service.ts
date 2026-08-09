@@ -5,10 +5,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Request } from 'express';
 import { Between, Repository } from 'typeorm';
 
 import { KanbanList } from '../kanban-lists/entities/kanban-lists.entity';
+import { AuthenticatedRequest } from '../types/request';
 import { CreateKanbanCardDto } from './dto/create-kanban-card.dto';
 import { FindKanbanCardDto } from './dto/find-kanban-card.dto';
 import { UpdateKanbanCardDto } from './dto/update-kanban-card.dto';
@@ -22,7 +22,7 @@ export class KanbanCardsService {
     @InjectRepository(KanbanList)
     private kanbanListRepository: Repository<KanbanList>,
   ) {}
-  async create(req: Request, createKanbanCardDto: CreateKanbanCardDto) {
+  async create(req: AuthenticatedRequest, createKanbanCardDto: CreateKanbanCardDto) {
     // Check list exists
     const list = await this.kanbanListRepository.findOne({
       relations: { board: true },
@@ -30,7 +30,7 @@ export class KanbanCardsService {
         id: createKanbanCardDto.listId,
         board: {
           owners: {
-            id: req.session.passport.user.id,
+            id: req.user.id,
           },
         },
       },
@@ -61,7 +61,7 @@ export class KanbanCardsService {
     return await this.kanbanCardRepository.save(kanbanCard);
   }
 
-  async findAll(req: Request, findKanbanCardDto: FindKanbanCardDto) {
+  async findAll(req: AuthenticatedRequest, findKanbanCardDto: FindKanbanCardDto) {
     // Get all cards
     const [data, total] = await this.kanbanCardRepository.findAndCount({
       relations: { list: true },
@@ -70,7 +70,7 @@ export class KanbanCardsService {
           id: findKanbanCardDto.listId,
           board: {
             owners: {
-              id: req.session.passport.user.id,
+              id: req.user.id,
             },
           },
         },
@@ -87,7 +87,7 @@ export class KanbanCardsService {
     };
   }
 
-  async findOne(req: Request, id: number) {
+  async findOne(req: AuthenticatedRequest, id: number) {
     // Get Card
     const card = await this.kanbanCardRepository.findOne({
       relations: { list: true },
@@ -96,7 +96,7 @@ export class KanbanCardsService {
         list: {
           board: {
             owners: {
-              id: req.session.passport.user.id,
+              id: req.user.id,
             },
           },
         },
@@ -108,7 +108,11 @@ export class KanbanCardsService {
     return card;
   }
 
-  async update(req: Request, id: number, updateKanbanCardDto: UpdateKanbanCardDto) {
+  async update(
+    req: AuthenticatedRequest,
+    id: number,
+    updateKanbanCardDto: UpdateKanbanCardDto,
+  ) {
     // Get Card
     const card = await this.kanbanCardRepository.findOne({
       relations: { list: true },
@@ -117,7 +121,7 @@ export class KanbanCardsService {
         list: {
           board: {
             owners: {
-              id: req.session.passport.user.id,
+              id: req.user.id,
             },
           },
         },
@@ -177,7 +181,7 @@ export class KanbanCardsService {
     };
   }
 
-  async remove(req: Request, id: number) {
+  async remove(req: AuthenticatedRequest, id: number) {
     // Get card
     const card = await this.kanbanCardRepository.findOne({
       relations: { list: true },
@@ -186,7 +190,7 @@ export class KanbanCardsService {
         list: {
           board: {
             owners: {
-              id: req.session.passport.user.id,
+              id: req.user.id,
             },
           },
         },

@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Request } from 'express';
 import { Repository } from 'typeorm';
 
+import { AuthenticatedRequest } from '../types/request';
 import { User } from '../users/entities/user.entity';
 import { CreateKanbanBoardDto } from './dto/create-kanban-board.dto';
 import { FindKanbanBoardDto } from './dto/find-kanban-board.dto';
@@ -18,9 +18,9 @@ export class KanbanBoardsService {
     private userRepository: Repository<User>,
   ) {}
 
-  async create(req: Request, createKanbanBoardDto: CreateKanbanBoardDto) {
+  async create(req: AuthenticatedRequest, createKanbanBoardDto: CreateKanbanBoardDto) {
     const owner = await this.userRepository.findOneBy({
-      id: req.session.passport.user.id,
+      id: req.user.id,
     });
 
     const kanbanBoard = new KanbanBoard();
@@ -30,12 +30,12 @@ export class KanbanBoardsService {
     return await this.kanbanBoardRepository.save(kanbanBoard);
   }
 
-  async findAll(req: Request, findKanbanBoardDto: FindKanbanBoardDto) {
+  async findAll(req: AuthenticatedRequest, findKanbanBoardDto: FindKanbanBoardDto) {
     const [data, total] = await this.kanbanBoardRepository.findAndCount({
       relations: { owners: true },
       where: {
         owners: {
-          id: req.session.passport.user.id,
+          id: req.user.id,
         },
       },
       order: {
@@ -50,13 +50,13 @@ export class KanbanBoardsService {
     };
   }
 
-  async findOne(req: Request, id: number) {
+  async findOne(req: AuthenticatedRequest, id: number) {
     const kanbanBoard = await this.kanbanBoardRepository.findOne({
       relations: { owners: true },
       where: {
         id: id,
         owners: {
-          id: req.session.passport.user.id,
+          id: req.user.id,
         },
       },
     });
@@ -66,14 +66,18 @@ export class KanbanBoardsService {
     return kanbanBoard;
   }
 
-  async update(req: Request, id: number, updateKanbanBoardDto: UpdateKanbanBoardDto) {
+  async update(
+    req: AuthenticatedRequest,
+    id: number,
+    updateKanbanBoardDto: UpdateKanbanBoardDto,
+  ) {
     // Check board exists
     const kanbanBoard = await this.kanbanBoardRepository.findOne({
       relations: { owners: true },
       where: {
         id: id,
         owners: {
-          id: req.session.passport.user.id,
+          id: req.user.id,
         },
       },
     });
@@ -93,14 +97,14 @@ export class KanbanBoardsService {
     return this.kanbanBoardRepository.findOneBy({ id: id });
   }
 
-  async remove(req: Request, id: number) {
+  async remove(req: AuthenticatedRequest, id: number) {
     // Check board exists
     const kanbanBoard = await this.kanbanBoardRepository.findOne({
       relations: { owners: true },
       where: {
         id: id,
         owners: {
-          id: req.session.passport.user.id,
+          id: req.user.id,
         },
       },
     });

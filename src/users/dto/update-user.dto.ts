@@ -1,10 +1,20 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsEnum, IsOptional, IsString } from 'class-validator';
 
+import { Role } from '../../enums/role.enum';
 import { CreateUserDto } from './create-user.dto';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
+  @IsEnum(Role)
+  @IsOptional()
+  @ApiProperty({
+    description: 'User role',
+    enum: Role,
+    example: Role.Admin,
+  })
+  role?: Role;
+
   @IsString()
   @IsOptional()
   @ApiProperty({

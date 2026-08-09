@@ -12,10 +12,10 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Request } from 'express';
 
 import { Roles } from '../decorators/roles.decorator';
 import { Role } from '../enums/role.enum';
+import { AuthenticatedRequest } from '../types/request';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { FindTransactionDto } from './dto/find-transaction.dto';
 import { GetTotalDto } from './dto/get-total.dto';
@@ -40,10 +40,13 @@ export class TransactionController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  create(@Req() req: Request, @Body() createTransactionDto: CreateTransactionDto) {
+  create(
+    @Req() req: AuthenticatedRequest,
+    @Body() createTransactionDto: CreateTransactionDto,
+  ) {
     return this.transactionService.create({
       ...createTransactionDto,
-      user: req.session.passport.user as any,
+      user: req.user,
     });
   }
 
@@ -56,7 +59,10 @@ export class TransactionController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  findAll(@Req() req: Request, @Query() findTransactionDto: FindTransactionDto) {
+  findAll(
+    @Req() req: AuthenticatedRequest,
+    @Query() findTransactionDto: FindTransactionDto,
+  ) {
     return this.transactionService.findAll(req, findTransactionDto);
   }
 
@@ -78,7 +84,7 @@ export class TransactionController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  getTotal(@Req() req: Request, @Query() getTotalDto: GetTotalDto) {
+  getTotal(@Req() req: AuthenticatedRequest, @Query() getTotalDto: GetTotalDto) {
     return this.transactionService.getTotal(req, getTotalDto.year);
   }
 
@@ -88,7 +94,7 @@ export class TransactionController {
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @ApiResponse({ status: 404, description: 'Not Found' })
   @Roles(Role.Admin, Role.User)
-  findOne(@Req() req: Request, @Param('id') id: string) {
+  findOne(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
     return this.transactionService.findOne(req, +id);
   }
 
@@ -99,7 +105,7 @@ export class TransactionController {
   @ApiResponse({ status: 404, description: 'Not Found' })
   @Roles(Role.Admin, Role.User)
   update(
-    @Req() req: Request,
+    @Req() req: AuthenticatedRequest,
     @Param('id') id: string,
     @Body() updateTransactionDto: UpdateTransactionDto,
   ) {
@@ -112,7 +118,7 @@ export class TransactionController {
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @ApiResponse({ status: 404, description: 'Not Found' })
   @Roles(Role.Admin, Role.User)
-  remove(@Req() req: Request, @Param('id') id: string) {
+  remove(@Req() req: AuthenticatedRequest, @Param('id') id: string) {
     return this.transactionService.remove(req, +id);
   }
 }

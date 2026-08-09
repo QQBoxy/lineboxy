@@ -5,10 +5,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Request } from 'express';
 import { Between, Repository } from 'typeorm';
 
 import { KanbanBoard } from '../kanban-boards/entities/kanban-board.entity';
+import { AuthenticatedRequest } from '../types/request';
 import { CreateKanbanListDto } from './dto/create-kanban-list.dto';
 import { FindKanbanListDto } from './dto/find-kanban-list.dto';
 import { UpdateKanbanListsDto } from './dto/update-kanban-list.dto';
@@ -22,14 +22,14 @@ export class KanbanListsService {
     @InjectRepository(KanbanBoard)
     private kanbanBoardRepository: Repository<KanbanBoard>,
   ) {}
-  async create(req: Request, createKanbanListDto: CreateKanbanListDto) {
+  async create(req: AuthenticatedRequest, createKanbanListDto: CreateKanbanListDto) {
     // Check board exists
     const board = await this.kanbanBoardRepository.findOne({
       relations: { owners: true },
       where: {
         id: createKanbanListDto.boardId,
         owners: {
-          id: req.session.passport.user.id,
+          id: req.user.id,
         },
       },
     });
@@ -58,14 +58,14 @@ export class KanbanListsService {
     return await this.kanbanListRepository.save(kanbanList);
   }
 
-  async findAll(req: Request, findKanbanListDto: FindKanbanListDto) {
+  async findAll(req: AuthenticatedRequest, findKanbanListDto: FindKanbanListDto) {
     // Check board exists
     const board = await this.kanbanBoardRepository.findOne({
       relations: { owners: true },
       where: {
         id: findKanbanListDto.boardId,
         owners: {
-          id: req.session.passport.user.id,
+          id: req.user.id,
         },
       },
     });
@@ -95,7 +95,7 @@ export class KanbanListsService {
     };
   }
 
-  async findOne(req: Request, id: number) {
+  async findOne(req: AuthenticatedRequest, id: number) {
     // Get list
     const list = await this.kanbanListRepository.findOne({
       relations: { board: true },
@@ -103,7 +103,7 @@ export class KanbanListsService {
         id: id,
         board: {
           owners: {
-            id: req.session.passport.user.id,
+            id: req.user.id,
           },
         },
       },
@@ -114,7 +114,11 @@ export class KanbanListsService {
     return list;
   }
 
-  async update(req: Request, id: number, updateKanbanListsDto: UpdateKanbanListsDto) {
+  async update(
+    req: AuthenticatedRequest,
+    id: number,
+    updateKanbanListsDto: UpdateKanbanListsDto,
+  ) {
     // Get list
     const list = await this.kanbanListRepository.findOne({
       relations: { board: true },
@@ -122,7 +126,7 @@ export class KanbanListsService {
         id: id,
         board: {
           owners: {
-            id: req.session.passport.user.id,
+            id: req.user.id,
           },
         },
       },
@@ -178,7 +182,7 @@ export class KanbanListsService {
     };
   }
 
-  async remove(req: Request, id: number) {
+  async remove(req: AuthenticatedRequest, id: number) {
     // Get list
     const list = await this.kanbanListRepository.findOne({
       relations: { board: true },
@@ -186,7 +190,7 @@ export class KanbanListsService {
         id: id,
         board: {
           owners: {
-            id: req.session.passport.user.id,
+            id: req.user.id,
           },
         },
       },

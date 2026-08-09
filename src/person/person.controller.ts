@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Patch, Req } from '@nestjs/common';
 import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Request } from 'express';
 
 import { Roles } from '../decorators/roles.decorator';
 import { Role } from '../enums/role.enum';
+import { AuthenticatedRequest } from '../types/request';
 import { UserDto } from '../users/dto/user.dto';
 import { UsersService } from '../users/users.service';
 import { UpdateLineUserIdsDto } from './dto/update-line-user-ids.dto';
@@ -19,8 +19,8 @@ export class PersonController {
   @ApiResponse({ status: 200, description: 'Successful', type: UserDto })
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
-  read(@Req() req: Request) {
-    return req.session.passport.user;
+  read(@Req() req: AuthenticatedRequest) {
+    return req.user;
   }
 
   @Patch('line-user-ids')
@@ -29,13 +29,13 @@ export class PersonController {
   @ApiResponse({ status: 403, description: 'Forbidden resource' })
   @Roles(Role.Admin, Role.User)
   async updateLineIds(
-    @Req() req: Request,
+    @Req() req: AuthenticatedRequest,
     @Body() updateLineIdsDto: UpdateLineUserIdsDto,
   ) {
-    const user = await this.usersService.update(req.session.passport.user.id, {
+    const user = await this.usersService.update(req.user.id, {
       lineUserIds: updateLineIdsDto.lineUserIds,
     });
-    req.session.passport.user = user;
+    user.role = req.user.role;
     return user;
   }
 }

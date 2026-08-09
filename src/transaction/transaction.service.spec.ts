@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
+import { Role } from '../enums/role.enum';
 import { Transaction } from './entities/transaction.entity';
 import { TransactionService } from './transaction.service';
 
@@ -15,13 +16,17 @@ describe('TransactionService', () => {
     find: jest.Mock;
   };
   const req = {
-    session: {
-      passport: {
-        user: {
-          id: 1,
-          name: 'qqboxy',
-        },
-      },
+    user: {
+      id: 1,
+      name: 'qqboxy',
+      role: Role.User,
+    },
+  } as any;
+  const adminReq = {
+    user: {
+      id: 2,
+      name: 'admin',
+      role: Role.Admin,
     },
   } as any;
   const user = {
@@ -98,6 +103,22 @@ describe('TransactionService', () => {
     });
   });
 
+  it('should list all transactions for an admin', async () => {
+    repository.findAndCount.mockResolvedValue([[{ id: 1 }, { id: 2 }], 2]);
+
+    await service.findAll(adminReq, { offset: 0, limit: 10 });
+
+    expect(repository.findAndCount).toHaveBeenCalledWith({
+      where: {},
+      relations: { user: true },
+      order: {
+        createdAt: 'DESC',
+      },
+      skip: 0,
+      take: 10,
+    });
+  });
+
   it('should get one transaction for the current user', async () => {
     repository.findOne.mockResolvedValue({ id: 1, user });
 
@@ -121,6 +142,17 @@ describe('TransactionService', () => {
     repository.findOne.mockResolvedValue(null);
 
     await expect(service.findOne(req, 1)).rejects.toThrow();
+  });
+
+  it('should get any transaction for an admin', async () => {
+    repository.findOne.mockResolvedValue({ id: 1, user });
+
+    await service.findOne(adminReq, 1);
+
+    expect(repository.findOne).toHaveBeenCalledWith({
+      where: { id: 1 },
+      relations: { user: true },
+    });
   });
 
   it('should update a transaction for the current user', async () => {
@@ -204,6 +236,22 @@ describe('TransactionService', () => {
       });
       expect(result.length).toBe(12);
       expect(result.every((r) => r.total === 0)).toBe(true);
+    });
+
+    it('should calculate totals across all users for an admin', async () => {
+      repository.find.mockResolvedValue([]);
+
+      await service.getTotal(adminReq, 2026);
+
+      expect(repository.find).toHaveBeenCalledWith({
+        where: {
+          createdAt: expect.any(Object),
+        },
+        select: {
+          price: true,
+          createdAt: true,
+        },
+      });
     });
   });
 });
