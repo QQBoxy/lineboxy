@@ -7,7 +7,7 @@ import { MqttService } from '../../mqtt/mqtt.service';
 export class VacuumPowerService {
   constructor(private readonly mqttService: MqttService) {}
 
-  @Cron(CronExpression.EVERY_DAY_AT_3PM)
+  @Cron(CronExpression.EVERY_DAY_AT_2PM)
   handleCron() {
     this.mqttService.publish('vacuum/power/inTopic', 'start');
   }
